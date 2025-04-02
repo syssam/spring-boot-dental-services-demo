@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout(title='Home Page', content='::content', css='service', scripts='')}">
+<body>
+  <!-- Override content fragment -->
+    <main th:fragment="content">
+      <nav aria-label="breadcrumb" class="page-breadcrumb">
+          <div class="container-xxl">
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Service</li>
+              </ol>
+          </div>
+      </nav>
+      <div class="main-section container-xxl">
+        <div class="row">
+          <th:block th:each="i : ${#numbers.sequence(0, 8)}">
+          <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-4">
+            <div class="card border-0 shadow-sm">
+              <img src="https://trucaredental.hk/wp-content/uploads/trucaredental0704index-21.jpg.webp" class="card-img-top" alt="牙齒美容">
+              <div class="card-body">
+                <h3 class="card-title text-center">牙齒美容</h3>
+                <p class="card-text text-center">牙齒美容是一種牙科治療，旨在改善患者的牙齒外觀。</p>
+              </div>
+            </div>
+          </div>
+          </th:block>
+        </div>
+      </div>
+    </main>
+</body>
+</html>

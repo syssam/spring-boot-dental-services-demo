@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  spring-boot-app:
+    build: .
+    ports:
+      - "8080:8080"
+      - "35729:35729"  # LiveReload port
+    volumes:
+      - .:/app  # 掛載整個專案目錄
+      - ~/.gradle:/root/.gradle
+      - ./src:/app/src
+    environment:
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+      - SPRING_DEVTOOLS_LIVERELOAD_ENABLED=true
+      - SPRING_THYMELEAF_CACHE=false
+    command: ["./gradlew", "bootRun", "--continuous", "-PspringBoot.run.jvmArguments='-Dspring-boot.run.fork=false'"]

@@ -1,0 +1,20 @@
+#content {
+    padding-bottom: 50px;
+}
+.bg {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+.section-banner {
+    min-height: 600px;
+}
+.section-title {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color: var(--main-color);
+}
+.default-section {
+    padding-top: 40px;
+}

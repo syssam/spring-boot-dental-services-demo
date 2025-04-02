@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    th:replace="~{app/account-layout :: layout(
+        title=#{app.account.profile}, 
+        content='::content', 
+        css='account',
+        scripts='::scripts'
+    )}"
+>
+<body>
+    <main th:fragment="content">
+        <section class="page-section form-section default-style">
+            <h2 class="section-header section-title default-style mb-3" >个人资料</h2>
+            <div class="section-body default-style">     
+                <form class="needs-validation form-default" th:action="@{/account/profile}" th:object="${profileForm}" method="POST" id="profile-form">
+                    <div class="row g-3">
+                        <div class="form-group col-6 col-md-6 col-sm-6">
+                            <label class="form-label" for="inputFirstName">名</label>
+                            <input type="text" th:field="*{firstName}" 
+                                   th:class="${#fields.hasErrors('firstName')} ? 'form-control is-invalid' : 'form-control'" 
+                                   required data-rule-maxlength="32" maxlength="32">
+                            <div th:if="${#fields.hasErrors('firstName')}" id="inputFirstName-error" 
+                                 class="error invalid-feedback" th:text="${#fields.errors('firstName')}"></div>
+                        </div>
+                        <div class="form-group col-6 col-md-6 col-sm-6">
+                            <label class="form-label" for="inputLastName">姓</label>
+                            <input type="text" th:field="*{lastName}" 
+                                   th:class="${#fields.hasErrors('lastName')} ? 'form-control is-invalid' : 'form-control'" 
+                                   required data-rule-maxlength="32" maxlength="32">
+                            <div th:if="${#fields.hasErrors('lastName')}" id="inputLastName-error" 
+                                 class="error invalid-feedback" th:text="${#fields.errors('lastName')}"></div>
+                        </div>
+                        <div class="form-group col-12 col-md-12 col-sm-12">
+                            <label class="col-form-label" for="inputEmail">邮箱</label>
+                            <input type="email" th:field="*{email}" 
+                                   th:class="${#fields.hasErrors('email')} ? 'form-control is-invalid' : 'form-control'" 
+                                   th:readonly="${email != null && !email.isEmpty()}"
+                                   id="inputEmail" required data-rule-email="true" data-rule-maxlength="100" maxlength="100">
+                            <div th:if="${#fields.hasErrors('email')}" id="inputEmail-error" 
+                                 class="error invalid-feedback" th:text="${#fields.errors('email')}"></div>
+                        </div>
+                        <div class="form-group col-12 col-md-12 col-sm-12">
+                            <label class="col-form-label" for="inputTelephone">电话</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <select th:field="*{telephonePrefix}" class="form-select">
+                                        <option value="86">+86</option>
+                                        <option value="852">+852</option>
+                                        <option value="853">+853</option>
+                                        <option value="886">+886</option>
+                                    </select>
+                                </div>
+                                <input type="text" th:field="*{telephone}" 
+                                       th:class="${#fields.hasErrors('telephone')} ? 'form-control is-invalid' : 'form-control'" 
+                                       id="inputTelephone" required rule-minlength="8" data-rule-maxlength="15" maxlength="15">
+                            </div>
+                            <div th:if="${#fields.hasErrors('telephone')}" id="inputTelephone-error" 
+                                 class="error invalid-feedback" th:text="${#fields.errors('telephone')}"></div>
+                        </div>
+                        
+                        <div class=" col-12 col-md-12 col-sm-12 text-center">
+                            <button type="submit" class="btn btn-submit btn-default mt-3">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <script th:fragment="scripts">
+        $("#profile-form").validate();
+    </script>
+</body>
+</html>

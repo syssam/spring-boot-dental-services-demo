@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout(title='Home Page', content='::content', css='signin', scripts='::scripts')}">
+<body>
+  <!-- Override content fragment -->
+    <main th:fragment="content">
+        <div class="main-section container-xxl">
+            <section class="signin-section bg-white shadow card border-0">
+                <nav class="card-header p-0 border-0">
+                    <div class="nav nav-tabs nav-pills nav-justified border-0" id="nav-tab" role="tablist">
+                        <a class="nav-link active border-0" type="button" aria-selected="true"><span>Signin</span></a>
+                        <a class="nav-link border-0" th:href="@{/signup}" type="button" role="tab"><span>Signup</span></a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane card-body fade show active" id="nav-signin" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="section-body">
+                            <form class="needs-validation row g-3 form-default" th:action="@{/signin}" method="POST" id="signin-form">
+                                <div class="form-group col-12">
+                                    <label class="form-label" for="inputEmail">Email</label>
+                                    <input type="email" name="email" class="form-control" id="inputEmail" required maxlength="100">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label class="form-label" for="inputPassword">Password</label>
+                                    <input type="password" name="password" class="form-control" id="inputPassword" required minlength="8" maxlength="24">
+                                </div>
+                                <div class="text-center mt-3">
+                                    <button type="submit" class="btn btn-primary border btn-block w-100 btn-lg">Sign In</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script th:fragment="scripts">
+        $(document).ready(function () {
+            $("#signin-form").validate();
+            var error = '[(${error})]';
+            if (error && error.trim() !== '') {
+                showErrorMessage(error);
+            }
+        });
+    </script>
+</body>
+</html>

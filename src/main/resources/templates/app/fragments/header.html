@@ -1,0 +1,39 @@
+<header class="header sticky-top">
+    <div class="container d-flex">
+        <button type="button" class="btn btn-primary" id="menu-trigger" onclick="menuClick()" aria-label="Menu"><i class="bi bi-list"></i></button>
+        <a href="/" class="header-logo"><img src="/assets/images/logo.svg" class="img-fluid" alt="Polyu" width="240" height="45" /></a>
+        <nav class="navbar" id="mobile-nav">
+            <ul class="navbar-nav flex-row menu">
+                <li></li>
+                <li class="nav-item active">
+                    <a href="/" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/team" class="nav-link">Team</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/service" class="nav-link">Service</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/booking" class="nav-link">Booking</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/contact" class="nav-link">Contact</a>
+                </li>
+            </ul> 
+        </nav>
+        <div class="d-flex align-items-center header-action">
+            <div sec:authorize="isAuthenticated()">
+                <a href="/account" class="btn btn-primary" previewlistener="true">Account</a>
+                <a href="/logout" class="btn btn-secondary ms-2" previewlistener="true">Logout</a>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                <a href="/signin" class="btn btn-primary" previewlistener="true">Signin</a>
+                <a href="/signup" class="btn btn-secondary ms-2" previewlistener="true">Signup</a>
+            </div>
+        </div>
+    </div>
+  </header>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout(title='Home Page', content='::content', css='index', scripts='')}">
+<body>
+  <!-- Override content fragment -->
+  <main th:fragment="content">
+    <section class="section-banner bg d-flex flex-column justify-content-center align-items-center" style="background-image: url(https://trucaredental.hk/wp-content/uploads/trucaredental-12.jpg.webp);">
+      <p class="text-white text-center mb-0">TruCare Dental</p>
+      <h1 class="text-white text-center">彤心牙科診所</h1>
+      <h3 class="text-white text-center">香港連鎖牙科服務品牌</h3>
+      <div class="text-center">
+        <a class="btn btn-primary mt-3" target="_blank" rel="noopener">Booking Service</a>
+      </div>
+    </section>
+    <section class="default-section section-about bg-light">
+      <h2 class="section-title text-center">About TruCare Dental</h2>
+      <div class="section-body container">
+        <div class="row">
+          <div class="col-lg-5 col-md-6 col-sm-12 col-12">
+            <img class="img-fluid" src="https://trucaredental.hk/en/wp-content/uploads/trucaredental640X430.jpg.webp" alt="TruCare Dental">
+          </div>
+          <div class="col-lg-7 col-md-6 col-sm-12 col-12">
+            <h3>Hong Kong Comprehensive Dental Services</h3>
+            <p class="text-muted mb-0">Our team consists of a group of dentists who graduated from the University of Poly. Trucare Dental Clinic has been rooted in Tsim Sha Tsui, Central, Langham Place and Sham Shui Po for many years, providing patients with professional dental treatment. Always adhere to the patient-centered approach and provide high-quality medical services.</p>
+            <div class="text-left mt-2">
+              <a class="btn btn-primary mt-2" target="_blank" rel="noopener">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="default-section section-services bg-light">
+      <h2 class="section-title text-center">Dental Services</h2>
+      <div class="section-body container">
+        <div class="row">
+          <div th:each="i : ${#numbers.sequence(0, 8)}" class="col-lg-4 col-md-4 col-sm-6 col-12 mb-4">
+            <div class="card border-0 shadow-sm">
+              <img src="https://trucaredental.hk/en/wp-content/uploads/trucaredental0704index-1.jpg.webp" class="card-img-top" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title text-center">General Dentistry</h5>
+                <p class="card-text">From checkups to crowns, fillings, and dentures, we offer a full range of dental services with advanced technology to ensure confident, healthy smiles.</p>
+                <a href="#" class="btn btn-primary d-block">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

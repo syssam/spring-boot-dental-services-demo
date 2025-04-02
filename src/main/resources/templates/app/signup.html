@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout(title='Sign Up', content='::content', css='signup', scripts='::scripts')}">
+<body>
+  <!-- Override content fragment -->
+    <main th:fragment="content">
+        <div class="main-section container-xxl">
+            <section class="signup-section bg-white shadow card  border-0">
+                <nav class="card-header p-0 border-0">
+                    <div class="nav nav-tabs nav-pills nav-justified border-0" id="nav-tab" role="tablist">
+                        <a class="nav-link border-0" th:href="@{/signin}" type="button" aria-selected="false">
+                            <span>Sign In</span>
+                        </a>
+                        <a class="nav-link active border-0" type="button" role="tab" aria-selected="true">
+                            <span>Sign Up</span>
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane card-body fade show active" id="nav-signup" role="tabpanel">
+                        <div class="section-body">
+                            <!-- 错误消息显示 -->
+                            <div th:if="${error}" class="alert alert-danger" role="alert">
+                                <p th:text="${error}"></p>
+                            </div>
+
+                            <form class="row g-3 needs-validation form-default" 
+                                    th:action="@{/signup}" method="POST" 
+                                    th:object="${userForm}" id="signup-form">
+                                
+                                <div class="form-group col-12">
+                                    <label class="form-label" for="inputEmail">Email</label>
+                                    <input type="email" class="form-control" 
+                                            th:field="*{email}"
+                                            th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" 
+                                            required maxlength="96">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" 
+                                            th:errors="*{email}"></div>
+                                </div>
+
+                                <div class="form-group col-12">
+                                    <label class="form-label" for="inputTelephone">Telephone</label>
+                                    <div class="input-group">
+                                        <select class="form-select" style="max-width: 100px;" th:field="*{telephonePrefix}">
+                                            <option value="852" selected>+852</option>
+                                            <option value="86">+86</option>
+                                            <option value="1">+1</option>
+                                            <!-- 添加其他需要的区号 -->
+                                        </select>
+                                        <input type="tel" class="form-control"
+                                                th:field="*{telephone}"
+                                                th:classappend="${#fields.hasErrors('telephone')} ? 'is-invalid'"
+                                                required minlength="8" maxlength="15">
+                                    </div>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('telephone')}" 
+                                            th:errors="*{telephone}"></div>
+                                </div>
+
+                                <div class="form-group col-6">
+                                    <label class="form-label" for="inputFirstName">First Name</label>
+                                    <input type="text" class="form-control"
+                                            th:field="*{firstName}"
+                                            th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'"
+                                            required maxlength="32">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" 
+                                            th:errors="*{firstName}"></div>
+                                </div>
+
+                                <div class="form-group col-6">
+                                    <label class="form-label" for="inputLastName">Last Name</label>
+                                    <input type="text" class="form-control"
+                                            th:field="*{lastName}"
+                                            th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'"
+                                            required maxlength="32">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" 
+                                            th:errors="*{lastName}"></div>
+                                </div>
+
+                                <div class="form-group col-12">
+                                    <label class="form-label" for="inputPassword">Password</label>
+                                    <input type="password" class="form-control"
+                                            th:field="*{password}"
+                                            th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'"
+                                            required minlength="8" maxlength="20">
+                                    <div class="form-text">
+                                        Your password should contain 8 to 20 characters
+                                    </div>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" 
+                                            th:errors="*{password}"></div>
+                                </div>
+
+                                <div class="form-group col-12">
+                                    <label class="form-label" for="inputPasswordConfirmation">Confirm Password</label>
+                                    <input type="password" class="form-control"
+                                            th:field="*{passwordConfirmation}"
+                                            th:classappend="${#fields.hasErrors('passwordConfirmation')} ? 'is-invalid'"
+                                            required minlength="8" maxlength="20">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('passwordConfirmation')}" 
+                                            th:errors="*{passwordConfirmation}"></div>
+                                </div>
+
+                                <div class="col-12 line-wrapper">
+                                    <hr class="line">
+                                </div>
+
+                                <div class="col-12 mt-0">
+                                    <div class="form-check form-group">
+                                        <input type="checkbox" class="form-check-input" 
+                                               id="agree"
+                                               th:field="*{agree}"
+                                               required>
+                                        <label class="form-check-label" for="agree">
+                                            By joining, you are agreeing to Our <a>Terms & Conditions</a>
+                                        </label>
+                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('agree')}" 
+                                             th:errors="*{agree}"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-submit btn-primary">Sign Up</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script th:fragment="scripts">
+        $(document).ready(function() {
+            $("#signup-form").validate();
+            
+            var error = '[(${error})]';
+            if (error && error.trim() !== '') {
+                showErrorMessage(error);
+            }
+        });
+    </script>
+</body>
+</html>

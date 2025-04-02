@@ -1,0 +1,57 @@
+main {
+    background-color: #F0F0F0;
+    padding-bottom: 0;
+    display: flex;
+    flex: 1;
+}
+
+.main-section {
+    padding-top: 67px;
+    padding-bottom: 67px;
+}
+
+.signup-section {
+    max-width: 468px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signup-section .nav-link {
+    border-radius: 0;
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 20px;
+}
+
+.signup-section .nav-pills .nav-link.active,
+.signup-section .nav-pills .show > .nav-link {
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.85);
+    border-bottom: 1px solid #dee2e6;
+}
+
+.signup-section .nav-pills .nav-link.active > span,
+.signup-section .nav-pills .show > .nav-link > span {
+    border-bottom: 2px solid var(--theme-primary-color);
+}
+
+.signup-section .forget-password {
+    color: #373333;
+    font-size: 12px;
+    background: none;
+    text-decoration: underline;
+}
+
+.signup-section .btn-submit {
+    width: 100%;
+}
+
+.signup-section .line-wrapper {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    margin: 0;
+}
+
+.signup-section .line {
+    display: block;
+    margin: 0;
+}

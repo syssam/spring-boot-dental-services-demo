@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{app/layout :: layout(title='修改预约', content='::content', css='booking-create', scripts='::scripts')}">
+<body>
+    <main th:fragment="content">
+        <div class="container my-4">
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="mb-0">修改预约</h3>
+                        </div>
+                        <div class="card-body">
+                            <!-- 预约信息 -->
+                            <div class="booking-section active">
+                                <h4 class="mb-4">预约详情</h4>
+                                
+                                <div class="mb-4">
+                                    <label for="clinic" class="form-label">诊所位置</label>
+                                    <select id="clinic" class="form-select" required>
+                                        <option value="">请选择诊所</option>
+                                        <option th:each="clinic : ${clinics}" 
+                                                th:value="${clinic.id}" 
+                                                th:text="${clinic.name + ' - ' + clinic.district}"
+                                                th:selected="${clinic.id == appointment.clinic.id}">
+                                            尖沙咀诊所 - 尖沙咀
+                                        </option>
+                                    </select>
+                                    <div class="invalid-feedback">请选择诊所</div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="appointment-date" class="form-label">预约日期</label>
+                                    <input type="text" id="appointment-date" class="form-control" required placeholder="请选择日期"
+                                           th:attr="data-default-date=${#temporals.format(appointment.appointmentDate, 'yyyy-MM-dd')}">
+                                    <div class="invalid-feedback">请选择预约日期</div>
+                                    <div class="form-text">可预约未来3个月内的日期</div>
+                                </div>
+                                
+                                <div id="dentist-loading" class="text-center py-3" style="display:none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p class="mt-2">正在加载可用牙医...</p>
+                                </div>
+                                
+                                <div id="no-dentists" class="alert alert-warning" style="display:none;">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    所选日期没有可用牙医。请选择其他日期或诊所。
+                                </div>
+                                
+                                <div id="dentist-selection" class="mb-4">
+                                    <div class="form-floating">
+                                        <select id="dentist" class="form-select" required>
+                                            <option value="">请选择牙医</option>
+                                            <!-- 牙医选项会通过JavaScript动态生成 -->
+                                        </select>
+                                        <label for="dentist"><i class="fas fa-user-md me-2"></i>选择牙医</label>
+                                        <div class="invalid-feedback">请选择牙医</div>
+                                    </div>
+                                    <div class="form-text text-muted mt-1">
+                                        <i class="fas fa-info-circle me-1"></i>列表中显示所选日期在该诊所可提供服务的牙医
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="treatment" class="form-label">牙科服务</label>
+                                    <select id="treatment" class="form-select" required>
+                                        <option value="">请选择服务</option>
+                                        <option th:each="treatment : ${treatments}" 
+                                                th:value="${treatment.id}" 
+                                                th:text="${treatment.name + ' - $' + treatment.price + ' (' + treatment.durationMinutes + '分钟)'}"
+                                                th:selected="${treatment.id == appointment.treatmentType.id}">
+                                            常规检查 - $500 (30分钟)
+                                        </option>
+                                    </select>
+                                    <div class="invalid-feedback">请选择服务</div>
+                                </div>
+                                
+                                <div id="timeslot-loading" class="text-center py-3" style="display:none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p class="mt-2">正在加载可用时间段...</p>
+                                </div>
+                                
+                                <div id="timeslot-selection" class="mb-4">
+                                    <div class="form-floating">
+                                        <select id="timeslot" class="form-select" required>
+                                            <option value="">请选择时间段</option>
+                                            <!-- 时间段选项会通过JavaScript动态生成 -->
+                                        </select>
+                                        <label for="timeslot"><i class="fas fa-clock me-2"></i>选择时间段</label>
+                                        <div class="invalid-feedback">请选择时间段</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="notes" class="form-label">备注 (可选)</label>
+                                    <textarea id="notes" class="form-control" rows="3" 
+                                             placeholder="请填写症状描述或特殊要求" th:text="${appointment.notes}"></textarea>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <a th:href="@{/booking}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-arrow-left me-1"></i> 返回
+                                    </a>
+                                    <button class="btn btn-success" id="update-booking">
+                                        <i class="fas fa-check-circle me-1"></i> 保存修改
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- JavaScript 代码片段 -->
+    <script th:fragment="scripts">
+        $(document).ready(function() {
+            let selectedClinic = [[${appointment.clinic.id}]];
+            let selectedDate = [[${#temporals.format(appointment.appointmentDate, 'yyyy-MM-dd')}]];
+            let selectedDentist = [[${appointment.dentist.id}]];
+            let selectedTreatment = [[${appointment.treatmentType.id}]];
+            let selectedTime = [[${#temporals.format(appointment.startTime, 'HH:mm')}]];
+            
+            // 初始化Flatpickr日期选择器
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const threeMonthsLater = new Date();
+            threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+            
+            const datePicker = flatpickr("#appointment-date", {
+                dateFormat: "Y-m-d",
+                minDate: tomorrow,
+                maxDate: threeMonthsLater,
+                disableMobile: true,
+                altInput: true,
+                defaultDate: $('#appointment-date').data('default-date'),
+                onChange: function(selectedDates, dateStr) {
+                    selectedDate = dateStr;
+                    if (selectedDate) {
+                        if ($('#clinic').val()) {
+                            loadDentists();
+                        }
+                    }
+                }
+            });
+            
+            // 页面加载时获取牙医列表
+            loadDentists(true);
+            
+            // 监听诊所变化
+            $('#clinic').change(function() {
+                selectedClinic = $(this).val();
+                if (selectedClinic && selectedDate) {
+                    loadDentists();
+                }
+            });
+            
+            // 监听治疗类型变化
+            $('#treatment').change(function() {
+                selectedTreatment = $(this).val();
+                if (selectedClinic && selectedDate && selectedDentist && selectedTreatment) {
+                    loadTimeSlots();
+                }
+            });
+            
+            // 加载牙医列表
+            function loadDentists(setSelected = false) {
+                $('#dentist-loading').show();
+                $('#dentist-selection').hide();
+                $('#no-dentists').hide();
+                
+                $.ajax({
+                    url: `/api/clinics/${selectedClinic}/dentists`,
+                    type: 'GET',
+                    data: {
+                        date: selectedDate
+                    },
+                    success: function(dentists) {
+                        $('#dentist-loading').hide();
+                        
+                        if (dentists && dentists.length > 0) {
+                            // 渲染牙医列表
+                            const dentistSelect = $('#dentist');
+                            dentistSelect.empty();
+                            dentistSelect.append('<option value="">请选择牙医</option>');
+                            
+                            dentists.forEach(dentist => {
+                                const specialization = dentist.specialization || '普通牙科';
+                                const option = `<option value="${dentist.id}"${dentist.id == selectedDentist ? ' selected' : ''}>Dr. ${dentist.firstName} ${dentist.lastName} - ${specialization}</option>`;
+                                dentistSelect.append(option);
+                            });
+                            
+                            $('#dentist-selection').show();
+                            
+                            // 绑定选择事件
+                            $('#dentist').change(function() {
+                                selectedDentist = $(this).val();
+                                if (selectedTreatment) {
+                                    loadTimeSlots();
+                                }
+                            });
+                            
+                            if (setSelected) {
+                                selectedDentist = $('#dentist').val();
+                                loadTimeSlots();
+                            }
+                        } else {
+                            $('#no-dentists').show();
+                        }
+                    },
+                    error: function() {
+                        $('#dentist-loading').hide();
+                        alert('加载牙医失败，请重试');
+                    }
+                });
+            }
+            
+            // 加载时间段
+            function loadTimeSlots() {
+                if (!selectedClinic || !selectedDate || !selectedDentist || !selectedTreatment) return;
+                
+                $('#timeslot-loading').show();
+                $('#timeslot-selection').hide();
+                
+                $.ajax({
+                    url: `/api/dentists/${selectedDentist}/timeslots`,
+                    type: 'GET',
+                    data: {
+                        clinicId: selectedClinic,
+                        date: selectedDate,
+                        treatmentId: selectedTreatment
+                    },
+                    success: function(timeSlots) {
+                        $('#timeslot-loading').hide();
+                        
+                        const timeslotSelect = $('#timeslot');
+                        timeslotSelect.empty();
+                        timeslotSelect.append('<option value="">请选择时间段</option>');
+                        
+                        timeSlots.forEach(timeSlot => {
+                            timeslotSelect.append(`<option value="${timeSlot}"${timeSlot == selectedTime ? ' selected' : ''}>${timeSlot}</option>`);
+                        });
+                        
+                        $('#timeslot-selection').show();
+                    },
+                    error: function() {
+                        $('#timeslot-loading').hide();
+                        alert('加载时间段失败，请重试');
+                    }
+                });
+            }
+            
+            // 提交修改预约
+            $('#update-booking').click(function() {
+                selectedTime = $('#timeslot').val();
+                
+                if (!selectedClinic) {
+                    alert('请选择诊所');
+                    return;
+                }
+                
+                if (!selectedDate) {
+                    alert('请选择日期');
+                    return;
+                }
+                
+                if (!selectedDentist) {
+                    alert('请选择牙医');
+                    return;
+                }
+                
+                if (!selectedTreatment) {
+                    alert('请选择服务');
+                    return;
+                }
+                
+                if (!selectedTime) {
+                    alert('请选择时间段');
+                    return;
+                }
+                
+                const notes = $('#notes').val();
+                
+                const appointmentData = {
+                    clinicId: selectedClinic,
+                    dentistId: selectedDentist,
+                    treatmentTypeId: selectedTreatment,
+                    appointmentDate: selectedDate,
+                    startTime: selectedTime,
+                    notes: notes
+                };
+                
+                // 禁用按钮，防止重复提交
+                $('#update-booking').prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>处理中...');
+                
+                $.ajax({
+                    url: '/api/appointments/' + [[${appointment.id}]],
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(appointmentData),
+                    success: function() {
+                        // 跳转到预约详情页面，显示成功消息
+                        window.location.href = '/booking?success=修改预约成功';
+                    },
+                    error: function(xhr) {
+                        $('#update-booking').prop('disabled', false).html('<i class="fas fa-check-circle me-1"></i> 保存修改');
+                        alert('修改预约失败: ' + (xhr.responseText || '请稍后重试'));
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

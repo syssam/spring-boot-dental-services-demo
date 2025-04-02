@@ -1,0 +1,198 @@
+/* 预约页面的通用样式 */
+.booking-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.booking-progress:before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e9ecef;
+    z-index: 1;
+}
+
+.booking-step {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 25%;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e9ecef;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-weight: bold;
+    border: 2px solid #fff;
+}
+
+.booking-step.active .step-number {
+    background: #007bff;
+    color: #fff;
+}
+
+.step-text {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.booking-step.active .step-text {
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* 牙医卡片样式 */
+.dentist-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.dentist-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dentist-card.selected {
+    border-color: #007bff;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+.dentist-avatar img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+/* 时间段按钮样式 */
+.timeslot-container {
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.timeslot-group {
+    margin-bottom: 20px;
+}
+
+.timeslot-group:last-child {
+    margin-bottom: 0;
+}
+
+.timeslot-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.time-slot-btn {
+    min-width: 80px;
+}
+
+.time-slot-btn.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* 预约摘要样式 */
+.summary-item {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.summary-item:last-child {
+    margin-bottom: 0;
+}
+
+.summary-label {
+    width: 30%;
+    font-weight: bold;
+}
+
+.summary-value {
+    width: 70%;
+}
+
+/* 预约卡片样式 */
+.appointment-card {
+    transition: transform 0.3s ease;
+}
+
+.appointment-card:hover {
+    transform: translateY(-5px);
+}
+
+.appointment-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.date-day {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.date-month {
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+/* 预约确认页面样式 */
+.confirmation-card {
+    border-top: 5px solid #28a745;
+}
+
+.confirmation-icon {
+    color: #28a745;
+}
+
+/* 预约详情页面样式 */
+.appointment-status-card {
+    border-left: 5px solid #007bff;
+}
+
+/* 响应式调整 */
+@media (max-width: 767.98px) {
+    .booking-step {
+        width: auto;
+    }
+    
+    .booking-progress:before {
+        top: 15px;
+    }
+    
+    .step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 0.85rem;
+    }
+    
+    .summary-item {
+        flex-direction: column;
+    }
+    
+    .summary-label, .summary-value {
+        width: 100%;
+    }
+    
+    .summary-value {
+        margin-top: 5px;
+    }
+} 

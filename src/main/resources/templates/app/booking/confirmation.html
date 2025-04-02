@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{app/layout :: layout(title='预约确认', content='::content', css='booking', scripts='')}">
+<body>
+    <main th:fragment="content">
+        <div class="container my-4">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="card shadow-sm confirmation-card">
+                        <div class="card-body text-center p-5">
+                            <div class="confirmation-icon mb-4">
+                                <i class="fas fa-check-circle fa-5x text-success"></i>
+                            </div>
+                            <h2 class="mb-4">预约成功！</h2>
+                            <p class="lead mb-4">您的牙科预约已成功提交。确认邮件已发送到您的邮箱。</p>
+                            
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title border-bottom pb-2 mb-3">预约详情</h5>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-5 text-start fw-bold">预约编号:</div>
+                                        <div class="col-7 text-end" th:text="${appointment.id}">123456</div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-5 text-start fw-bold">就诊日期:</div>
+                                        <div class="col-7 text-end" th:text="${#temporals.format(appointment.appointmentDate, 'yyyy年MM月dd日 EEEE')}">
+                                            2024年05月15日 星期一
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-5 text-start fw-bold">时间:</div>
+                                        <div class="col-7 text-end" th:text="${#temporals.format(appointment.startTime, 'HH:mm') + ' - ' + #temporals.format(appointment.endTime, 'HH:mm')}">
+                                            09:00 - 10:00
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-5 text-start fw-bold">服务类型:</div>
+                                        <div class="col-7 text-end" th:text="${appointment.treatmentType.name}">常规检查</div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-5 text-start fw-bold">诊所:</div>
+                                        <div class="col-7 text-end" th:text="${appointment.clinic.name}">尖沙咀诊所</div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-5 text-start fw-bold">地址:</div>
+                                        <div class="col-7 text-end" th:text="${appointment.clinic.address}">九龙尖沙咀广东道123号</div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-5 text-start fw-bold">牙医:</div>
+                                        <div class="col-7 text-end" th:text="${'Dr. ' + appointment.dentist.firstName + ' ' + appointment.dentist.lastName}">
+                                            李大维医生
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="appointment-notes mb-4 p-3 bg-light rounded" th:if="${appointment.notes}">
+                                <h6 class="mb-2">您的备注:</h6>
+                                <p class="mb-0" th:text="${appointment.notes}">右下方牙齿疼痛，请尽快处理</p>
+                            </div>
+                            
+                            <div class="alert alert-info mb-4" role="alert">
+                                <i class="fas fa-info-circle me-2"></i> 请提前15分钟到达诊所，并携带有效身份证件。
+                            </div>
+                            
+                            <div class="d-grid gap-3">
+                                <a th:href="@{/booking/view/{id}(id=${appointment.id})}" class="btn btn-primary">
+                                    <i class="fas fa-eye me-2"></i> 查看预约详情
+                                </a>
+                                <a th:href="@{/booking}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-list me-2"></i> 返回预约列表
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html> 

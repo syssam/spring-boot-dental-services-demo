@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout(title='Home Page', content='::content', css='team', scripts='')}">
+<body>
+  <!-- Override content fragment -->
+  <main th:fragment="content">
+    <nav aria-label="breadcrumb" class="page-breadcrumb">
+        <div class="container-xxl">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Team</li>
+            </ol>
+        </div>
+    </nav>
+    <div class="main-content container-xxl">
+      <div class="row justify-content-center">
+        <th:block th:each="i : ${#numbers.sequence(0, 8)}">
+        <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+              <h3 class="card-title">Dr. Wu</h3>
+              <small class="card-text">香港大學牙醫學士 BDS(HK)
+                愛丁堡皇家外科醫學院牙科學系院員 MFDS RCSEd
+                格拉斯哥皇家醫學院牙科學系院員 MFDS RCPS(Glasg)</small>
+            </div>
+          </div>
+        </div>
+      </th:block>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

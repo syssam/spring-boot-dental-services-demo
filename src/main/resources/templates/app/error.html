@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错误页面</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card border-danger shadow-sm">
+          <div class="card-header bg-danger text-white">
+            <h3 class="mb-0">发生错误</h3>
+          </div>
+          <div class="card-body">
+            <!-- 显示具体错误信息 -->
+            <div th:if="${error}" class="alert alert-danger">
+              <p th:text="${error}">错误详情将显示在这里</p>
+            </div>
+            
+            <!-- 无具体错误信息时显示通用消息 -->
+            <div th:unless="${error}" class="alert alert-warning">
+              <p>处理您的请求时发生错误，请稍后再试。</p>
+            </div>
+            
+            <!-- 显示堆栈跟踪（仅在开发环境中） -->
+            <div th:if="${trace}" class="mt-4">
+              <h5>技术详情:</h5>
+              <pre class="bg-light p-3 small" th:text="${trace}">堆栈跟踪</pre>
+            </div>
+            
+            <!-- 导航按钮 -->
+            <div class="d-flex justify-content-between mt-4">
+              <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                返回上一页
+              </a>
+              <a th:href="@{/}" class="btn btn-primary">
+                返回首页
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 建议链接 -->
+        <div class="mt-4 text-center">
+          <p class="text-muted">需要帮助? 请 <a th:href="@{/contact}" class="link-primary">联系我们</a> 或查看 
+          <a th:href="@{/faq}" class="link-primary">常见问题</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

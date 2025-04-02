@@ -1,0 +1,23 @@
+.content-section {
+    position: relative;
+    top: -50px;
+    padding-bottom: 50px;
+}
+.image-section {
+    padding: 0;
+}
+.content-section .bg {
+    position: absolute;
+    top: 20%;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #f2f7fb;
+}
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
