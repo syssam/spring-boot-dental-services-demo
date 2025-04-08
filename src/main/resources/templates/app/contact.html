@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
     th:replace="~{app/layout :: layout(
+        activePage='contact',
         title='联系我们', 
         content='::content', 
         css='contact',
@@ -10,14 +11,22 @@
 <body>
   <!-- Override content fragment -->
     <main th:fragment="content">
-        <div class="main-content container">
+        <nav aria-label="breadcrumb" class="page-breadcrumb">
+            <div class="container-xxl">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                </ol>
+            </div>
+        </nav>
+        <div class="main-content container-xxl">
             <div class="row">
                 <div class="col-md-6 col-sm-12 col-left">
                     <div class="form-section">
                         <h2 class="section-title">Message Us</h2>
                         <div class="section-body">
                             <p class="notice">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
-                            <form class="needs-validation form-default" method="POST" id="contact-form" th:action="@{/contact}" th:object="${contact}">
+                            <form class="needs-validation row g-3 form-default" method="POST" id="contact-form" th:action="@{/contact}" th:object="${contact}">
                                 <div class="form-group">
                                     <label class="form-label" for="inputName">Name</label>
                                     <input type="text" name="name" class="form-control" id="inputName" required maxlength="100" placeholder="Name*" th:field="*{name}"
@@ -32,8 +41,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="inputTelephone">Telephone</label>
-                                    <input type="tel" name="telephone" class="form-control" id="inputTelephone" required minlength="8" maxlength="15" placeholder="Telephone*" th:field="*{telephone}" th:classappend="${#fields.hasErrors('telephone')} ? 'is-invalid' : ''">
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('telephone')}" th:errors="*{phone}"></div>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <select th:field="*{telephonePrefix}" class="form-select">
+                                                <option value="86">+86</option>
+                                                <option value="852">+852</option>
+                                                <option value="853">+853</option>
+                                                <option value="886">+886</option>
+                                            </select>
+                                        </div>
+                                        <input type="tel" name="telephone" class="form-control" id="inputTelephone" 
+                                               required minlength="8" maxlength="15" placeholder="Telephone*" 
+                                               th:field="*{telephone}" 
+                                               th:classappend="${#fields.hasErrors('telephone')} ? 'is-invalid' : ''">
+                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"></div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="inputMessage">Message</label>
@@ -58,23 +80,19 @@
             <h2 class="section-title text-center mb-3">Locations</h2>
             <div class="section-body container">
                 <div class="row">
-                    <th:block th:each="i : ${#numbers.sequence(0, 8)}">
-                        <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-4">
-                            <div class="card border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h3 class="card-title">彤心牙科(深水埗)診所</h3>
-                                    <ul class="card-text location-info">
-                                        <li>地址: 香港九龍深水埗區深水埗道123號</li>
-                                        <li>電話: 2388 1234</li>
-                                        <li>電郵: info@trucaredental.hk</li>
-                                        <li>營業時間: 星期一至五: 上午9:00 - 下午6:00</li>
-                                        <li>星期六: 上午9:00 - 下午1:00</li>
-                                        <li>星期日及公眾假期休息</li>
-                                    </ul>
-                                </div>
+                    <div th:each="clinic : ${clinics}" class="col-lg-4 col-md-6 col-sm-12 col-12 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h3 class="card-title" th:text="${clinic.name}"></h3>
+                                <ul class="card-text location-info">
+                                    <li th:text="${'Address: ' + clinic.address}"></li>
+                                    <li th:text="${'Phone: ' + clinic.phone}"></li>
+                                    <li th:text="${'Email: ' + clinic.email}"></li>
+                                    <li th:utext="${'Opening Hours: ' + #strings.replace(clinic.openingHours, '&#10;', '<br>')}"></li>
+                                </ul>
                             </div>
                         </div>
-                    </th:block>
+                    </div>
                 </div>
             </div>
         </section>

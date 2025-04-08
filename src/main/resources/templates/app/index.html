@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout(title='Home Page', content='::content', css='index', scripts='')}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout( activePage='home', title='Home Page', content='::content', css='index', scripts='')}">
 <body>
   <!-- Override content fragment -->
   <main th:fragment="content">
@@ -11,7 +11,7 @@
         <a class="btn btn-primary mt-3" target="_blank" rel="noopener">Booking Service</a>
       </div>
     </section>
-    <section class="default-section section-about bg-light">
+    <section class="default-section section-about">
       <h2 class="section-title text-center">About TruCare Dental</h2>
       <div class="section-body container">
         <div class="row">
@@ -32,13 +32,12 @@
       <h2 class="section-title text-center">Dental Services</h2>
       <div class="section-body container">
         <div class="row">
-          <div th:each="i : ${#numbers.sequence(0, 8)}" class="col-lg-4 col-md-4 col-sm-6 col-12 mb-4">
+          <div th:each="service : ${services}" class="col-lg-4 col-md-4 col-sm-6 col-12 mb-4">
             <div class="card border-0 shadow-sm">
-              <img src="https://trucaredental.hk/en/wp-content/uploads/trucaredental0704index-1.jpg.webp" class="card-img-top" alt="Card image cap">
+              <img th:src="@{'/uploads/services/' + ${service.image}}" class="card-img-top" th:alt="${service.name}">
               <div class="card-body">
-                <h5 class="card-title text-center">General Dentistry</h5>
-                <p class="card-text">From checkups to crowns, fillings, and dentures, we offer a full range of dental services with advanced technology to ensure confident, healthy smiles.</p>
-                <a href="#" class="btn btn-primary d-block">Learn More</a>
+                <h5 class="card-title text-center" th:text="${service.name}"></h5>
+                <p class="card-text" th:text="${service.content}"></p>
               </div>
             </div>
           </div>

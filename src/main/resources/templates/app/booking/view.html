@@ -1,132 +1,123 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{app/layout :: layout(title='预约详情', content='::content', css='booking', scripts='::scripts')}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{app/layout :: layout(title='Appointment Details', content='::content', css='booking', scripts='::scripts')}">
 <body>
     <main th:fragment="content">
+        <nav th:fragment="breadcrumb" aria-label="breadcrumb" class="page-breadcrumb">
+            <div class="container-xxl">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/booking}">My Appointments</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Appointment Details</li>
+                </ol>
+            </div>
+        </nav>
         <div class="container my-4">
             <div class="row">
                 <div class="col-md-8">
-                    <!-- 面包屑导航 -->
-                    <nav aria-label="breadcrumb" class="mb-4">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a th:href="@{/booking}">我的预约</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">预约详情</li>
-                        </ol>
-                    </nav>
-                    
-                    <!-- 预约状态指示器 -->
+                    <!-- Appointment status indicator -->
                     <div class="appointment-status-card mb-4">
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span th:if="${appointment.status == 'PENDING'}" class="badge bg-warning text-dark fs-6 mb-2">待确认</span>
-                                        <span th:if="${appointment.status == 'CONFIRMED'}" class="badge bg-success fs-6 mb-2">已确认</span>
-                                        <span th:if="${appointment.status == 'COMPLETED'}" class="badge bg-info fs-6 mb-2">已完成</span>
-                                        <span th:if="${appointment.status == 'CANCELLED'}" class="badge bg-secondary fs-6 mb-2">已取消</span>
-                                        <span th:if="${appointment.status == 'NO_SHOW'}" class="badge bg-danger fs-6 mb-2">未出席</span>
-                                        <h4 class="mb-1" th:text="${appointment.treatmentType != null ? appointment.treatmentType.name : '未知服务'}">常规检查</h4>
-                                        <p class="text-muted mb-0" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'yyyy年MM月dd日 EEEE') : '未知日期'}">2024年05月15日 星期一</p>
+                                        <span th:if="${appointment.status == 'PENDING'}" class="badge bg-warning text-dark fs-6 mb-2">Pending</span>
+                                        <span th:if="${appointment.status == 'CONFIRMED'}" class="badge bg-success fs-6 mb-2">Confirmed</span>
+                                        <span th:if="${appointment.status == 'COMPLETED'}" class="badge bg-info fs-6 mb-2">Completed</span>
+                                        <span th:if="${appointment.status == 'CANCELLED'}" class="badge bg-secondary fs-6 mb-2">Cancelled</span>
+                                        <span th:if="${appointment.status == 'NO_SHOW'}" class="badge bg-danger fs-6 mb-2">No Show</span>
+                                        <h4 class="mb-1" th:text="${appointment.treatmentType != null ? appointment.treatmentType.name : 'Unknown Service'}">Regular Check-up</h4>
+                                        <p class="text-muted mb-0" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'MMMM d, yyyy EEEE') : 'Unknown Date'}">May 15, 2024 Monday</p>
                                     </div>
                                     <div class="text-end">
-                                        <div class="fs-1 fw-bold" th:text="${appointment.startTime != null ? #temporals.format(appointment.startTime, 'HH:mm') : '未知'}">09:00</div>
-                                        <div class="text-muted" th:text="${appointment.endTime != null ? '至 ' + #temporals.format(appointment.endTime, 'HH:mm') : '未知'}">至 10:00</div>
+                                        <div class="fs-1 fw-bold" th:text="${appointment.startTime != null ? #temporals.format(appointment.startTime, 'HH:mm') : 'Unknown'}">09:00</div>
+                                        <div class="text-muted" th:text="${appointment.endTime != null ? 'to ' + #temporals.format(appointment.endTime, 'HH:mm') : 'Unknown'}">to 10:00</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 预约编号 -->
+                    <!-- Appointment number -->
                     <div class="mb-4">
-                        <small class="text-muted">预约编号: <span class="fw-bold" th:text="${appointment.id}">12345</span></small>
+                        <small class="text-muted">Appointment ID: <span class="fw-bold" th:text="${appointment.id}">12345</span></small>
                     </div>
                     
-                    <!-- 详细信息卡片 -->
+                    <!-- Detailed information card -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h5 class="mb-0">预约详情</h5>
+                            <h5 class="mb-0">Appointment Details</h5>
                         </div>
                         <div class="card-body">
                             <div class="row mb-3">
-                                <div class="col-md-4 fw-bold">牙科服务:</div>
-                                <div class="col-md-8" th:text="${appointment.treatmentType != null ? appointment.treatmentType.name : '未知服务'}">常规检查</div>
+                                <div class="col-md-4 fw-bold">Dental Service:</div>
+                                <div class="col-md-8" th:text="${appointment.treatmentType != null ? appointment.treatmentType.name : 'Unknown Service'}">Regular Check-up</div>
                             </div>
                             
                             <div class="row mb-3">
-                                <div class="col-md-4 fw-bold">服务费用:</div>
-                                <div class="col-md-8" th:text="${appointment.treatmentType != null ? '$' + appointment.treatmentType.price : '未知'}">$500</div>
+                                <div class="col-md-4 fw-bold">Service Fee:</div>
+                                <div class="col-md-8" th:text="${appointment.treatmentType != null ? '$' + appointment.treatmentType.price : 'Unknown'}">$500</div>
                             </div>
                             
                             <div class="row mb-3">
-                                <div class="col-md-4 fw-bold">预计时长:</div>
-                                <div class="col-md-8" th:text="${appointment.treatmentType != null ? appointment.treatmentType.durationMinutes + ' 分钟' : '未知'}">30 分钟</div>
+                                <div class="col-md-4 fw-bold">Estimated Duration:</div>
+                                <div class="col-md-8" th:text="${appointment.treatmentType != null ? appointment.treatmentType.durationMinutes + ' minutes' : 'Unknown'}">30 minutes</div>
                             </div>
                             
                             <div class="row mb-3">
-                                <div class="col-md-4 fw-bold">牙医:</div>
+                                <div class="col-md-4 fw-bold">Dentist:</div>
                                 <div class="col-md-8">
                                     <div class="d-flex align-items-center">
-                                        <img th:if="${appointment.dentist != null && appointment.dentist.profileImage != null}" th:src="${appointment.dentist.profileImage}" 
-                                             class="rounded-circle me-2" width="40" height="40" alt="Doctor Photo">
-                                        <img th:unless="${appointment.dentist != null && appointment.dentist.profileImage != null}" src="/assets/images/dentist-placeholder.jpg" 
-                                             class="rounded-circle me-2" width="40" height="40" alt="Doctor Photo">
                                         <div th:text="${appointment.dentist != null ? 
-                                            'Dr. ' + appointment.dentist.firstName + ' ' + appointment.dentist.lastName : '未知医生'}">
-                                            李大维医生
+                                            'Dr. ' + appointment.dentist.name : 'Unknown Doctor'}">
+                                            Dr. David Li
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="row mb-3" th:if="${appointment.notes}">
-                                <div class="col-md-4 fw-bold">备注:</div>
-                                <div class="col-md-8" th:text="${appointment.notes}">右下方牙齿疼痛，请尽快处理</div>
-                            </div>
-                            
-                            <div class="row mb-3">
-                                <div class="col-md-4 fw-bold">预约人:</div>
-                                <div class="col-md-8" th:text="${appointment.user != null ? 
-                                  appointment.user.firstName + ' ' + appointment.user.lastName : '未知用户'}">张三</div>
+                                <div class="col-md-4 fw-bold">Notes:</div>
+                                <div class="col-md-8" th:text="${appointment.notes}">Pain in lower right tooth, please address as soon as possible</div>
                             </div>
                             
                             <div class="row mb-0" th:if="${appointment.status == 'CANCELLED'}">
-                                <div class="col-md-4 fw-bold">取消原因:</div>
-                                <div class="col-md-8" th:text="${appointment.cancellationReason}">时间冲突，无法前往</div>
+                                <div class="col-md-4 fw-bold">Cancellation Reason:</div>
+                                <div class="col-md-8" th:text="${appointment.cancellationReason}">Schedule conflict, unable to attend</div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 诊所信息卡片 -->
+                    <!-- Clinic information card -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h5 class="mb-0">诊所信息</h5>
+                            <h5 class="mb-0">Clinic Information</h5>
                         </div>
                         <div class="card-body">
                             <div class="row mb-3">
-                                <div class="col-md-4 fw-bold">诊所名称:</div>
-                                <div class="col-md-8" th:text="${appointment.clinic != null ? appointment.clinic.name : '未知诊所'}">尖沙咀诊所</div>
+                                <div class="col-md-4 fw-bold">Clinic Name:</div>
+                                <div class="col-md-8" th:text="${appointment.clinic != null ? appointment.clinic.name : 'Unknown Clinic'}">Tsim Sha Tsui Clinic</div>
                             </div>
                             
                             <div class="row mb-3">
-                                <div class="col-md-4 fw-bold">地址:</div>
-                                <div class="col-md-8" th:text="${appointment.clinic != null ? appointment.clinic.address : '未知地址'}">九龙尖沙咀广东道123号</div>
+                                <div class="col-md-4 fw-bold">Address:</div>
+                                <div class="col-md-8" th:text="${appointment.clinic != null ? appointment.clinic.address : 'Unknown Address'}">123 Canton Road, Tsim Sha Tsui, Kowloon</div>
                             </div>
                             
                             <div class="row mb-3">
-                                <div class="col-md-4 fw-bold">电话:</div>
+                                <div class="col-md-4 fw-bold">Phone:</div>
                                 <div class="col-md-8">
-                                    <a th:if="${appointment.clinic != null && appointment.clinic.telephone != null}" 
-                                       th:href="${'tel:' + appointment.clinic.telephone}" 
-                                       th:text="${appointment.clinic.telephone}">
+                                    <a th:if="${appointment.clinic != null && appointment.clinic.phone != null}" 
+                                       th:href="${'tel:' + appointment.clinic.phone}" 
+                                       th:text="${appointment.clinic.phone}">
                                         2123 4567
                                     </a>
-                                    <span th:unless="${appointment.clinic != null && appointment.clinic.telephone != null}">未知</span>
+                                    <span th:unless="${appointment.clinic != null && appointment.clinic.phone != null}">Unknown</span>
                                 </div>
                             </div>
                             
                             <div class="row mb-0" th:if="${appointment.clinic != null && appointment.clinic.email != null}">
-                                <div class="col-md-4 fw-bold">电邮:</div>
+                                <div class="col-md-4 fw-bold">Email:</div>
                                 <div class="col-md-8">
                                     <a th:href="${'mailto:' + appointment.clinic.email}" 
                                        th:text="${appointment.clinic.email}">
@@ -139,47 +130,47 @@
                 </div>
                 
                 <div class="col-md-4">
-                    <!-- 操作按钮 -->
+                    <!-- Action buttons -->
                     <div class="card sticky-top mb-4" style="top: 20px;">
                         <div class="card-body">
-                            <h5 class="card-title mb-3">操作</h5>
+                            <h5 class="card-title mb-3">Actions</h5>
                             
-                            <!-- 显示相关按钮，基于预约状态 -->
+                            <!-- Display relevant buttons based on appointment status -->
                             <div class="d-grid gap-2" th:if="${appointment.status == 'PENDING' || appointment.status == 'CONFIRMED'}">
                                 <a th:href="@{/booking/edit/{id}(id=${appointment.id})}" class="btn btn-outline-primary">
-                                    <i class="fas fa-edit me-2"></i> 修改预约
+                                    <i class="fas fa-edit me-2"></i> Edit Appointment
                                 </a>
                                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">
-                                    <i class="fas fa-times-circle me-2"></i> 取消预约
+                                    <i class="fas fa-times-circle me-2"></i> Cancel Appointment
                                 </button>
                             </div>
                             
                             <div class="d-grid gap-2" th:if="${appointment.status == 'CANCELLED'}">
                                 <a th:href="@{/booking/create}" class="btn btn-outline-primary">
-                                    <i class="fas fa-redo me-2"></i> 重新预约
+                                    <i class="fas fa-redo me-2"></i> Book Again
                                 </a>
                             </div>
                             
                             <div class="d-grid mt-3">
                                 <a th:href="@{/booking}" class="btn btn-outline-secondary">
-                                    <i class="fas fa-arrow-left me-2"></i> 返回预约列表
+                                    <i class="fas fa-arrow-left me-2"></i> Return to Appointments List
                                 </a>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 注意事项卡片 -->
+                    <!-- Important notes card -->
                     <div class="card mb-4">
                         <div class="card-header bg-light">
-                            <h5 class="mb-0">就诊须知</h5>
+                            <h5 class="mb-0">Appointment Guidelines</h5>
                         </div>
                         <div class="card-body">
                             <ul class="mb-0 ps-3">
-                                <li class="mb-2">请提前15分钟到达诊所办理登记手续</li>
-                                <li class="mb-2">请携带有效身份证件</li>
-                                <li class="mb-2">如需取消或更改预约，请提前24小时通知</li>
-                                <li class="mb-2">如有特殊情况，请提前联系诊所</li>
-                                <li>特殊服务可能需要额外费用</li>
+                                <li class="mb-2">Please arrive 15 minutes before your appointment for registration</li>
+                                <li class="mb-2">Please bring valid identification</li>
+                                <li class="mb-2">If you need to cancel or change your appointment, please notify us 24 hours in advance</li>
+                                <li class="mb-2">If you have special circumstances, please contact the clinic in advance</li>
+                                <li>Special services may require additional fees</li>
                             </ul>
                         </div>
                     </div>
@@ -187,36 +178,36 @@
             </div>
         </div>
         
-        <!-- 取消预约的模态框 -->
+        <!-- Modal for cancelling appointment -->
         <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="cancelModalLabel">取消预约</h5>
+                        <h5 class="modal-title" id="cancelModalLabel">Cancel Appointment</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form th:action="@{/booking/cancel/{id}(id=${appointment.id})}" method="post">
                         <div class="modal-body">
-                            <p>您确定要取消此预约吗？</p>
+                            <p>Are you sure you want to cancel this appointment?</p>
                             <div class="mb-3">
-                                <label for="reason" class="form-label">取消原因</label>
+                                <label for="reason" class="form-label">Cancellation Reason</label>
                                 <select class="form-select" id="reason" name="reason" required>
-                                    <option value="">请选择取消原因</option>
-                                    <option value="时间冲突，无法前往">时间冲突，无法前往</option>
-                                    <option value="症状已改善，不需要就诊">症状已改善，不需要就诊</option>
-                                    <option value="选择其他医生">选择其他医生</option>
-                                    <option value="选择其他日期">选择其他日期</option>
-                                    <option value="other">其他原因</option>
+                                    <option value="">Please select a reason</option>
+                                    <option value="Schedule conflict, unable to attend">Schedule conflict, unable to attend</option>
+                                    <option value="Symptoms improved, no longer need appointment">Symptoms improved, no longer need appointment</option>
+                                    <option value="Prefer to see a different dentist">Prefer to see a different dentist</option>
+                                    <option value="Need a different date">Need a different date</option>
+                                    <option value="other">Other reason</option>
                                 </select>
                             </div>
                             <div class="mb-3" id="otherReasonDiv" style="display: none;">
-                                <label for="otherReason" class="form-label">请说明</label>
+                                <label for="otherReason" class="form-label">Please specify</label>
                                 <textarea class="form-control" id="otherReason" name="otherReason" rows="2"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
-                            <button type="submit" class="btn btn-danger">确认取消</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                            <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
                         </div>
                     </form>
                 </div>
@@ -224,10 +215,10 @@
         </div>
     </main>
     
-    <!-- JavaScript 代码片段 -->
+    <!-- JavaScript Code Snippet -->
     <script th:fragment="scripts">
         $(document).ready(function() {
-            // 处理取消预约表单中的"其他原因"选项
+            // Handle "Other reason" option in the cancellation form
             $('#reason').change(function() {
                 if ($(this).val() === 'other') {
                     $('#otherReasonDiv').show();
@@ -236,12 +227,12 @@
                 }
             });
             
-            // 表单提交前处理其他原因
+            // Process other reason before form submission
             $('form').submit(function() {
                 if ($('#reason').val() === 'other') {
                     var otherReason = $('#otherReason').val();
                     if (otherReason.trim() === '') {
-                        showErrorMessage('请说明取消原因');
+                        showErrorMessage('Please specify the cancellation reason');
                         return false;
                     }
                     $('#reason').val(otherReason);

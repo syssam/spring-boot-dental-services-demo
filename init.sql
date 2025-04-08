@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： mysql:3306
--- 產生時間： 2025 年 04 月 02 日 14:43
+-- 產生時間： 2025 年 04 月 08 日 12:22
 -- 伺服器版本： 8.0.41
 -- PHP 版本： 8.2.27
 
@@ -57,7 +57,10 @@ INSERT INTO `appointments` (`id`, `user_id`, `dentist_id`, `clinic_id`, `treatme
 (8, 1, 2, 1, 1, '2025-04-03', '09:00:00', '09:30:00', 'CONFIRMED', '', NULL, '2025-04-01 16:34:45'),
 (9, 1, 2, 1, 1, '2025-04-03', '09:00:00', '09:30:00', 'CONFIRMED', '', NULL, '2025-04-01 16:38:19'),
 (10, 1, 2, 1, 1, '2025-04-03', '09:00:00', '09:30:00', 'CONFIRMED', '', NULL, '2025-04-01 17:16:09'),
-(11, 1, 2, 1, 1, '2025-04-03', '10:30:00', '11:00:00', 'CONFIRMED', '', NULL, '2025-04-01 17:31:08');
+(11, 1, 2, 1, 1, '2025-04-03', '10:30:00', '11:00:00', 'CONFIRMED', '', NULL, '2025-04-01 17:31:08'),
+(12, 1, 2, 1, 2, '2025-04-08', '09:30:00', '10:15:00', 'CONFIRMED', '', NULL, '2025-04-07 14:50:04'),
+(13, 1, 1, 1, 2, '2025-04-09', '09:00:00', '09:45:00', 'CONFIRMED', '', NULL, '2025-04-07 16:27:51'),
+(14, 1, 1, 1, 2, '2025-04-09', '15:30:00', '16:15:00', 'CONFIRMED', '', NULL, '2025-04-07 16:37:33');
 
 -- --------------------------------------------------------
 
@@ -69,14 +72,11 @@ CREATE TABLE `clinics` (
   `id` bigint NOT NULL,
   `name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `city` varchar(100) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `open_time` time DEFAULT NULL,
   `close_time` time DEFAULT NULL,
-  `description` text,
-  `telephone` int NOT NULL,
-  `district` varchar(255) NOT NULL,
+  `opening_hours` text,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -84,9 +84,12 @@ CREATE TABLE `clinics` (
 -- 傾印資料表的資料 `clinics`
 --
 
-INSERT INTO `clinics` (`id`, `name`, `address`, `city`, `phone`, `email`, `open_time`, `close_time`, `description`, `telephone`, `district`, `active`) VALUES
-(1, '香港牙科诊所', '香港中环皇后大道中100号', '香港', '852-12345678', 'info@hkdental.com', NULL, NULL, NULL, 0, '', 1),
-(2, '九龙湾牙科中心', '九龙湾宏照道33号', '香港', '852-23456789', 'info@klbdental.com', NULL, NULL, NULL, 0, '', 1);
+INSERT INTO `clinics` (`id`, `name`, `address`, `phone`, `email`, `open_time`, `close_time`, `opening_hours`, `active`) VALUES
+(1, 'Sham Shui Po Clinic', 'Shop 173-175, Apliu Street, Sham Shui Po', '852-12345678', 'info@hkdental.com', '10:00:00', '20:00:00', 'Monday to Friday: 10:00am - 08:00pm', 1),
+(2, 'Central Clinic', 'RoomD,18F Entertainment Plaza,30 Queen\'s Road', '852-12345678', 'info@klbdental.com', '10:00:00', '20:00:00', 'Monday to Friday: 10:00am - 08:00pm', 1),
+(3, 'Langham Place Clinic', 'Office 2507, Langham Place, 8 Argyle Street', '852-12345678', 'info@klbdental.com', '10:00:00', '20:00:00', 'Monday to Friday: 10:00am - 08:00pm', 1),
+(4, 'Tsim Sha Tsui Clinic', 'Office 2201, Mira Place Tower A', '852-12345678', 'info@klbdental.com', '10:00:00', '20:00:00', 'Monday to Friday: 10:00am - 08:00pm', 1),
+(5, 'Yau Ma Tei Clinic', '2/F, North Tower, PolyU West Kowloon Campus, 9 Hoi Ting Road, Yau Ma Tei, Kowloon', '852-12345678', 'info@klbdental.com', '10:00:00', '20:00:00', 'Monday to Friday: 10:00am - 08:00pm', 1);
 
 -- --------------------------------------------------------
 
@@ -121,12 +124,9 @@ INSERT INTO `contacts` (`id`, `name`, `email`, `telephone`, `message`, `created_
 
 CREATE TABLE `dentists` (
   `id` bigint NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `specialization` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `profile_image` varchar(255) DEFAULT NULL,
+  `qualification` text,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -134,9 +134,17 @@ CREATE TABLE `dentists` (
 -- 傾印資料表的資料 `dentists`
 --
 
-INSERT INTO `dentists` (`id`, `first_name`, `last_name`, `specialization`, `email`, `phone`, `profile_image`, `active`) VALUES
-(1, '张', '医生', '普通牙科', 'zhang@hkdental.com', '852-98765432', NULL, 1),
-(2, '李', '医生', '正畸牙科', 'li@hkdental.com', '852-87654321', NULL, 1);
+INSERT INTO `dentists` (`id`, `name`, `specialization`, `qualification`, `active`) VALUES
+(1, 'Ng Yu Tung', 'General Dentistry', 'Bachelor of Dental Surgery, The University of Hong Kong (BDS HK)\nMember of the Faculty of Dental Surgery, Royal College of Surgeons of Edinburgh (MFDS RCSEd)\nMember of the Faculty of Dental Surgery, Royal College of Physicians and Surgeons of Glasgow (MFDS RCPS [Glasg])\nMember of the Faculty of Dental Surgery, Royal College of Surgeons of England (MFDS RCS [Eng])', 1),
+(2, 'Ho Lik Kwan', 'Orthodontics', 'BDS (HK): Bachelor of Dental Surgery, The University of Hong Kong', 1),
+(3, 'Chan Suet Ying', 'General Dentistry', 'BDS (HK): Bachelor of Dental Surgery, The University of Hong Kong', 1),
+(4, 'Chan Sin Yi', 'General Dentistry', 'BDS (HK): Bachelor of Dental Surgery, The University of Hong Kong', 1),
+(5, 'Liu Ho Yi', 'General Dentistry', 'BDS (HK): Bachelor of Dental Surgery, The University of Hong Kong', 1),
+(6, 'Tsui Pak Chuen', 'General Dentistry', 'BDS (HK): Bachelor of Dental Surgery, The University of Hong Kong\r\nMFDS RCSEd: Member of the Faculty of Dental Surgery, Royal College of Surgeons of Edinburgh\r\nMFDS RCPS (Glasg): Member of the Faculty of Dental Surgery, Royal College of Physicians and Surgeons of Glasgow', 1),
+(7, 'Man Luen Him', 'General Dentistry', 'BDS (HK): Bachelor of Dental Surgery, The University of Hong Kong', 1),
+(8, 'Lam Chun Yiu', 'General Dentistry', 'BDS (HK): Bachelor of Dental Surgery, The University of Hong Kong\r\nMDS (Paed Dent) (HK): Master of Dental Surgery in Paediatric Dentistry, The University of Hong Kong\r\nMPaed Dent RCS (Eng): Member in Paediatric Dentistry, Royal College of Surgeons of England\r\nM Paed Dent RCSEd: Member in Paediatric Dentistry, Royal College of Surgeons of Edinburgh\r\nM Paed Dent RCPS (Glasg): Member in Paediatric Dentistry, Royal College of Physicians and Surgeons of Glasgow', 1),
+(9, 'Wong Wing Lam', 'General Dentistry', 'BDS (HK): Bachelor of Dental Surgery, The University of Hong Kong\r\nMDS (Endo) (HK): Master of Dental Surgery in Endodontics, The University of Hong Kong\r\nM Endo RCSEd: Member in Endodontics, Royal College of Surgeons of Edinburgh', 1),
+(10, 'Fung Cheuk Yi', 'General Dentistry', 'BDS (HK): Bachelor of Dental Surgery, The University of Hong Kong\r\nMDS (Endo) (HK): Master of Dental Surgery in Endodontics, The University of Hong Kong\r\nM Endo RCSEd: Member in Endodontics, Royal College of Surgeons of Edinburgh', 1);
 
 -- --------------------------------------------------------
 
@@ -195,6 +203,37 @@ INSERT INTO `dentist_schedules` (`id`, `day_of_week`, `effective_from`, `effecti
 -- --------------------------------------------------------
 
 --
+-- 資料表結構 `services`
+--
+
+CREATE TABLE `services` (
+  `id` int NOT NULL,
+  `image` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `content` text,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL,
+  `updated_at` timestamp NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- 傾印資料表的資料 `services`
+--
+
+INSERT INTO `services` (`id`, `image`, `name`, `content`, `active`, `created_at`, `updated_at`) VALUES
+(1, '1.webp', 'General Dentistry', 'From checkups to crowns, fillings, and dentures, we offer a full range of dental services with advanced technology to ensure confident, healthy smiles.\r\n', 1, '2025-04-07 07:59:45', '2025-04-07 07:59:45'),
+(2, '1.webp', '\r\nCosmetic Dentistry', 'Whitening veneers gently reduce stains and brighten teeth naturally, giving you a radiant and confident smile.\r\n\r\n', 1, '2025-04-07 08:08:44', '2025-04-07 08:08:44'),
+(3, '1.webp', 'Root Canal Treatment', 'With 3D CT-guided implants and custom crowns, we restore missing teeth efficiently, helping you regain a natural smile.\r\n\r\n', 1, '2025-04-07 08:08:58', '2025-04-07 08:08:58'),
+(4, '1.webp', 'Orthodontics (Braces)', 'We provide traditional and invisible braces, offering customized plans to align your teeth and boost your confidence.', 1, '2025-04-07 08:09:18', '2025-04-07 08:09:18'),
+(5, '1.webp', 'Pediatric Dentistry', 'Specialized care for kids with a warm, stress-free environment to support their dental health and ease parents’ concerns.', 1, '2025-04-07 08:09:43', '2025-04-07 08:09:43'),
+(6, '1.webp', 'Root Canal Therapy', 'The best way to save decayed teeth and prevent gaps from extractions. We aim to preserve every precious tooth.', 1, '2025-04-07 08:10:06', '2025-04-07 08:10:06'),
+(7, '1.webp', 'Dental Surgery', 'From simple extractions to wisdom tooth removal and corrective jaw surgery, our expert team has you covered.\r\n\r\n', 1, '2025-04-07 08:10:21', '2025-04-07 08:10:21'),
+(8, '1.webp', 'Periodontal Treatment', 'Deep cleaning, root planing, and periodontal surgery improve gum healthy, strengthen teeth, and keep your breath fresh.', 1, '2025-04-07 08:10:35', '2025-04-07 08:10:35'),
+(9, '1.webp', 'Emergency & Sunday Services', '\r\nOpen 7 days a week, including weekends and holidays, to address urgent dental needs without delays.', 1, '2025-04-07 08:10:47', '2025-04-07 08:10:47');
+
+-- --------------------------------------------------------
+
+--
 -- 資料表結構 `treatment_types`
 --
 
@@ -241,7 +280,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `telephone`, `password`, `status`, `created_at`, `updated_at`, `active`, `telephone_prefix`) VALUES
-(1, 'First Name', 'Last Name', 'sales@codesignx.com', '12345678', '$2a$10$bVDfMS.dNocL7PnpAisu1.UDz0d7vnXqcbKGbtzZrKj30RHWXs1G2', 1, '2025-03-23 10:41:12', '2025-03-31 13:05:13', 1, '852');
+(1, 'First Name', 'Last Name', 'sales@codesignx.com', '12345678', '$2a$10$bVDfMS.dNocL7PnpAisu1.UDz0d7vnXqcbKGbtzZrKj30RHWXs1G2', 1, '2025-03-23 10:41:12', '2025-04-07 13:34:54', 1, '852');
 
 --
 -- 已傾印資料表的索引
@@ -284,6 +323,12 @@ ALTER TABLE `dentist_schedules`
   ADD PRIMARY KEY (`id`);
 
 --
+-- 資料表索引 `services`
+--
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- 資料表索引 `treatment_types`
 --
 ALTER TABLE `treatment_types`
@@ -303,13 +348,13 @@ ALTER TABLE `users`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `clinics`
 --
 ALTER TABLE `clinics`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `contacts`
@@ -321,7 +366,7 @@ ALTER TABLE `contacts`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `dentists`
 --
 ALTER TABLE `dentists`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `dentist_clinic`
@@ -334,6 +379,12 @@ ALTER TABLE `dentist_clinic`
 --
 ALTER TABLE `dentist_schedules`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `services`
+--
+ALTER TABLE `services`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `treatment_types`

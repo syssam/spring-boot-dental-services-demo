@@ -1,81 +1,158 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{app/layout :: layout(title='预约确认', content='::content', css='booking', scripts='')}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{app/layout :: layout(title='Booking Confirmation', content='::content', css='booking', scripts='::scripts')}">
 <body>
     <main th:fragment="content">
-        <div class="container my-4">
+        <div class="container my-5">
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6">
-                    <div class="card shadow-sm confirmation-card">
+                    <div class="card border-0 shadow-lg rounded-4 confirmation-card">
+                        <div class="position-absolute top-0 start-0 end-0 bg-success" style="height:6px; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;"></div>
                         <div class="card-body text-center p-5">
                             <div class="confirmation-icon mb-4">
-                                <i class="fas fa-check-circle fa-5x text-success"></i>
+                                <div class="success-animation">
+                                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                    </svg>
+                                </div>
                             </div>
-                            <h2 class="mb-4">预约成功！</h2>
-                            <p class="lead mb-4">您的牙科预约已成功提交。确认邮件已发送到您的邮箱。</p>
                             
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <h5 class="card-title border-bottom pb-2 mb-3">预约详情</h5>
-                                    
-                                    <div class="row mb-3">
-                                        <div class="col-5 text-start fw-bold">预约编号:</div>
-                                        <div class="col-7 text-end" th:text="${appointment.id}">123456</div>
-                                    </div>
-                                    
-                                    <div class="row mb-3">
-                                        <div class="col-5 text-start fw-bold">就诊日期:</div>
-                                        <div class="col-7 text-end" th:text="${#temporals.format(appointment.appointmentDate, 'yyyy年MM月dd日 EEEE')}">
-                                            2024年05月15日 星期一
+                            <h2 class="fw-bold mb-3 animate__animated animate__fadeIn">Booking Successful!</h2>
+                            <p class="lead text-muted mb-5 animate__animated animate__fadeIn animate__delay-1s">Your dental appointment has been successfully submitted. A confirmation email has been sent to your inbox.</p>
+                            
+                            <div class="card border-0 shadow-sm rounded-4 mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+                                <div class="card-header bg-white py-3 border-0">
+                                    <h5 class="card-title mb-0 text-primary">
+                                        <i class="fas fa-calendar-check me-2"></i>Appointment Details
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <div class="row align-items-center mb-4">
+                                        <div class="col-auto pe-0">
+                                            <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                <i class="fas fa-hashtag text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col ps-3">
+                                            <div class="small text-muted">Appointment Number</div>
+                                            <div class="fw-bold" th:text="${appointment.id}"></div>
                                         </div>
                                     </div>
                                     
-                                    <div class="row mb-3">
-                                        <div class="col-5 text-start fw-bold">时间:</div>
-                                        <div class="col-7 text-end" th:text="${#temporals.format(appointment.startTime, 'HH:mm') + ' - ' + #temporals.format(appointment.endTime, 'HH:mm')}">
-                                            09:00 - 10:00
+                                    <div class="row align-items-center mb-4">
+                                        <div class="col-auto pe-0">
+                                            <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                <i class="fas fa-calendar-day text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col ps-3">
+                                            <div class="small text-muted">Appointment Date</div>
+                                            <div class="fw-bold" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'MMMM d, yyyy EEEE') : 'Unknown Date'}">
+                                                May 15, 2024 Monday
+                                            </div>
                                         </div>
                                     </div>
                                     
-                                    <div class="row mb-3">
-                                        <div class="col-5 text-start fw-bold">服务类型:</div>
-                                        <div class="col-7 text-end" th:text="${appointment.treatmentType.name}">常规检查</div>
+                                    <div class="row align-items-center mb-4">
+                                        <div class="col-auto pe-0">
+                                            <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                <i class="fas fa-clock text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col ps-3">
+                                            <div class="small text-muted">Time</div>
+                                            <div class="fw-bold" th:text="${#temporals.format(appointment.startTime, 'HH:mm') + ' - ' + #temporals.format(appointment.endTime, 'HH:mm')}">
+                                                09:00 - 10:00
+                                            </div>
+                                        </div>
                                     </div>
                                     
-                                    <div class="row mb-3">
-                                        <div class="col-5 text-start fw-bold">诊所:</div>
-                                        <div class="col-7 text-end" th:text="${appointment.clinic.name}">尖沙咀诊所</div>
+                                    <div class="row align-items-center mb-4">
+                                        <div class="col-auto pe-0">
+                                            <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                <i class="fas fa-tooth text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col ps-3">
+                                            <div class="small text-muted">Service Type</div>
+                                            <div class="fw-bold" th:text="${appointment.treatmentType.name}">Regular Check-up</div>
+                                        </div>
                                     </div>
                                     
-                                    <div class="row mb-3">
-                                        <div class="col-5 text-start fw-bold">地址:</div>
-                                        <div class="col-7 text-end" th:text="${appointment.clinic.address}">九龙尖沙咀广东道123号</div>
+                                    <div class="row align-items-center mb-4">
+                                        <div class="col-auto pe-0">
+                                            <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                <i class="fas fa-clinic-medical text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col ps-3">
+                                            <div class="small text-muted">Clinic</div>
+                                            <div class="fw-bold" th:text="${appointment.clinic.name}">Tsim Sha Tsui Clinic</div>
+                                        </div>
                                     </div>
                                     
-                                    <div class="row mb-3">
-                                        <div class="col-5 text-start fw-bold">牙医:</div>
-                                        <div class="col-7 text-end" th:text="${'Dr. ' + appointment.dentist.firstName + ' ' + appointment.dentist.lastName}">
-                                            李大维医生
+                                    <div class="row align-items-center mb-4">
+                                        <div class="col-auto pe-0">
+                                            <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                <i class="fas fa-map-marker-alt text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col ps-3">
+                                            <div class="small text-muted">Address</div>
+                                            <div class="fw-bold" th:text="${appointment.clinic.address}">123 Canton Road, Tsim Sha Tsui, Kowloon</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row align-items-center">
+                                        <div class="col-auto pe-0">
+                                            <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                <i class="fas fa-user-md text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col ps-3">
+                                            <div class="small text-muted">Dentist</div>
+                                            <div class="fw-bold" th:text="${appointment.dentist != null ? 
+                                                'Dr. ' + appointment.dentist.name : 'Unknown Doctor'}">
+                                                Dr. David Li
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="appointment-notes mb-4 p-3 bg-light rounded" th:if="${appointment.notes}">
-                                <h6 class="mb-2">您的备注:</h6>
-                                <p class="mb-0" th:text="${appointment.notes}">右下方牙齿疼痛，请尽快处理</p>
+                            <div th:if="${appointment.notes}" class="card border-0 shadow-sm rounded-4 mb-4 p-0 animate__animated animate__fadeInUp animate__delay-2s">
+                                <div class="card-body p-4">
+                                    <div class="d-flex">
+                                        <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                            <i class="fas fa-comment-medical text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold">Your Notes:</h6>
+                                            <p class="mb-0 text-muted" th:text="${appointment.notes}">Pain in lower right tooth, please address as soon as possible</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="alert alert-info mb-4" role="alert">
-                                <i class="fas fa-info-circle me-2"></i> 请提前15分钟到达诊所，并携带有效身份证件。
+                            <div class="alert alert-info rounded-4 border-0 shadow-sm mb-4 animate__animated animate__fadeInUp animate__delay-2s" role="alert">
+                                <div class="d-flex">
+                                    <div class="bg-info bg-opacity-10 rounded-circle p-3 d-flex align-items-center justify-content-center me-3" style="width: 46px; height: 46px;">
+                                        <i class="fas fa-info-circle text-info fs-5"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <strong class="d-block mb-1">Friendly Reminder</strong>
+                                        <span>Please arrive 15 minutes before your appointment and bring valid identification.</span>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="d-grid gap-3">
-                                <a th:href="@{/booking/view/{id}(id=${appointment.id})}" class="btn btn-primary">
-                                    <i class="fas fa-eye me-2"></i> 查看预约详情
+                            <div class="d-grid gap-3 animate__animated animate__fadeInUp animate__delay-3s">
+                                <a th:href="@{/booking/view/{id}(id=${appointment.id})}" class="btn btn-primary btn-lg rounded-pill">
+                                    <i class="fas fa-eye me-2"></i> View Appointment Details
                                 </a>
-                                <a th:href="@{/booking}" class="btn btn-outline-secondary">
-                                    <i class="fas fa-list me-2"></i> 返回预约列表
+                                <a th:href="@{/booking}" class="btn btn-outline-secondary rounded-pill">
+                                    <i class="fas fa-list me-2"></i> Return to Appointment List
                                 </a>
                             </div>
                         </div>
@@ -84,5 +161,137 @@
             </div>
         </div>
     </main>
+    
+    <script th:fragment="scripts">
+        $(document).ready(function() {
+            // Page element animation effects
+            $('.confirmation-card').hover(
+                function() {
+                    $(this).css('transform', 'translateY(-5px)');
+                    $(this).css('transition', 'all 0.3s ease');
+                },
+                function() {
+                    $(this).css('transform', 'translateY(0)');
+                    $(this).css('transition', 'all 0.3s ease');
+                }
+            );
+            
+            // Icon hover effects
+            $('.rounded-circle').hover(
+                function() {
+                    $(this).css('background-color', 'var(--bs-primary)');
+                    $(this).find('i').css('color', 'white');
+                    $(this).css('transition', 'all 0.3s ease');
+                },
+                function() {
+                    $(this).css('background-color', 'var(--bs-light)');
+                    $(this).find('i').css('color', 'var(--bs-primary)');
+                    $(this).css('transition', 'all 0.3s ease');
+                }
+            );
+        });
+    </script>
+    
+    <style>
+        /* Success animation effect */
+        .success-animation {
+            display: inline-block;
+        }
+        
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 3;
+            stroke: #4BB543;
+            stroke-miterlimit: 10;
+            box-shadow: inset 0px 0px 0px #4BB543;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+        
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 3;
+            stroke-miterlimit: 10;
+            stroke: #4BB543;
+            fill: none;
+            animation: stroke .6s cubic-bezier(0.650, 0.000, 0.450, 1.000) forwards;
+        }
+        
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke .3s cubic-bezier(0.650, 0.000, 0.450, 1.000) .8s forwards;
+        }
+        
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        @keyframes scale {
+            0%, 100% {
+                transform: none;
+            }
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+        
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 30px white;
+            }
+        }
+        
+        /* Animation classes */
+        .animate__animated {
+            animation-duration: 1s;
+        }
+        
+        .animate__fadeIn {
+            animation-name: fadeIn;
+        }
+        
+        .animate__fadeInUp {
+            animation-name: fadeInUp;
+        }
+        
+        .animate__delay-1s {
+            animation-delay: 0.3s;
+        }
+        
+        .animate__delay-2s {
+            animation-delay: 0.6s;
+        }
+        
+        .animate__delay-3s {
+            animation-delay: 0.9s;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 20px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+    </style>
 </body>
 </html> 

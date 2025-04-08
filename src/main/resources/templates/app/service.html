@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout(title='Home Page', content='::content', css='service', scripts='')}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout(activePage='service', title='Service Page', content='::content', css='service', scripts='')}">
 <body>
   <!-- Override content fragment -->
     <main th:fragment="content">
@@ -11,19 +11,17 @@
               </ol>
           </div>
       </nav>
-      <div class="main-section container-xxl">
+      <div class="main-content container-xxl">
         <div class="row">
-          <th:block th:each="i : ${#numbers.sequence(0, 8)}">
-          <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-4">
+          <div th:each="service : ${services}" class="col-lg-4 col-md-6 col-sm-12 col-12 mb-4">
             <div class="card border-0 shadow-sm">
-              <img src="https://trucaredental.hk/wp-content/uploads/trucaredental0704index-21.jpg.webp" class="card-img-top" alt="牙齒美容">
+              <img th:src="@{'/uploads/services/' + ${service.image}}" class="card-img-top" th:alt="${service.name}">
               <div class="card-body">
-                <h3 class="card-title text-center">牙齒美容</h3>
-                <p class="card-text text-center">牙齒美容是一種牙科治療，旨在改善患者的牙齒外觀。</p>
+                <h3 class="card-title text-center" th:text="${service.name}"></h3>
+                <p class="card-text" th:text="${service.content}"></p>
               </div>
             </div>
           </div>
-          </th:block>
         </div>
       </div>
     </main>

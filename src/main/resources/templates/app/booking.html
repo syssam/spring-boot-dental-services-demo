@@ -1,206 +1,260 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
     th:replace="~{app/account-layout :: layout(
-        title='Booking', 
+        title='My Appointments', 
         content='::content', 
         css='booking',
         scripts='::scripts',
-        breadcrumb='::breadcrumb'
+        breadcrumb='::breadcrumb',
+        leftMenuActivePage='booking',
+        activePage='booking'
     )}"
 >
-      <body>
+    <body>
     <nav th:fragment="breadcrumb" aria-label="breadcrumb" class="page-breadcrumb">
         <div class="container-xxl">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="https://onlineshop1.codesignx.com"><i class="fa-solid fa-house"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page">帳戶</li>
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Appointments</li>
             </ol>
         </div>
     </nav>
     <main th:fragment="content">
-        <div class="page-header d-flex justify-content-between align-items-center">
-            <h1>My Booking</h1>
-            <a th:href="@{/booking/create}" class="btn btn-primary">
-                <i class="fas fa-plus-circle me-2"></i>新预约
-            </a>
+        <!-- Appointment header -->
+        <div class="justify-content-between d-flex">
+            <h2 class="section-header section-title default-style mb-3">My Appointments</h2>
+            <div>
+                <a th:href="@{/booking/create}" class="btn btn-primary">
+                    <i class="fa-solid fa-calendar-plus me-2"></i>New Appointment
+                </a>
+            </div>
         </div>
-        
-        <div class="page-content">
-            <!-- 预约列表标签页 -->
-            <div class="card text-center">
-                <div class="card-header p-0 bg-white border-0">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab" aria-controls="upcoming" aria-selected="true">即将到来</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="past-tab" data-bs-toggle="tab" data-bs-target="#past" type="button" role="tab" aria-controls="past" aria-selected="false">历史预约</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab" aria-controls="cancelled" aria-selected="false">已取消</button>
-                        </li>
-                    </ul>
+        <div class="section-content">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-upcoming-tab" data-bs-toggle="tab" data-bs-target="#nav-upcoming" type="button" role="tab" aria-controls="nav-upcoming" aria-selected="true">Upcoming</button>
+                    <button class="nav-link" id="nav-past-tab" data-bs-toggle="tab" data-bs-target="#nav-past" type="button" role="tab" aria-controls="nav-past" aria-selected="false">Past</button>
+                    <button class="nav-link" id="nav-cancelled-tab" data-bs-toggle="tab" data-bs-target="#nav-cancelled" type="button" role="tab" aria-controls="nav-cancelled" aria-selected="false">Cancelled</button>
                 </div>
-                <div class="card-body">
-                    <div class="tab-content" id="appointment-tab-content">
-                        <!-- 即将到来的预约 -->
-                        <div class="tab-pane fade show active" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
-                            <div th:if="${#lists.isEmpty(upcomingAppointments)}" class="text-center py-5">
-                                <i class="fas fa-calendar-alt fa-3x text-muted mb-3"></i>
-                                <p class="lead">您目前没有即将到来的预约</p>
-                                <a th:href="@{/booking/create}" class="btn btn-outline-primary mt-2">
-                                    立即预约
-                                </a>
-                            </div>
-                            
-                            <div th:if="${not #lists.isEmpty(upcomingAppointments)}">
-                                <div class="row appointment-cards">
-                                    <div class="col-md-6 col-lg-4 mb-4" th:each="appointment : ${upcomingAppointments}">
-                                        <div class="card appointment-card h-100">
-                                            <div class="card-header d-flex justify-content-between align-items-center">
-                                                <div class="appointment-date">
-                                                    <span class="date-day" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'dd') : ''}">15</span>
-                                                    <span class="date-month" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'MMM') : ''}">Apr</span>
+            </nav>
+            <div class="tab-content" id="appointment-tab-content">
+                <!-- Upcoming appointments -->
+                <div class="tab-pane fade show active" id="nav-upcoming" role="tabpanel" aria-labelledby="nav-upcoming-tab">
+                    <div th:if="${#lists.isEmpty(upcomingAppointments)}" class="text-center py-5">
+                        <i class="fa-solid fa-calendar-alt text-muted opacity-25 display-1 mb-4"></i>
+                        <h4 class="fw-bold mb-3">No Upcoming Appointments</h4>
+                        <p class="text-muted mb-4 mx-auto" style="max-width:500px;">You currently have no upcoming appointments. Book your next service now.</p>
+                        <a th:href="@{/booking/create}" class="btn btn-primary px-4">
+                            Book Now
+                        </a>
+                    </div>
+                    
+                    <div th:if="${not #lists.isEmpty(upcomingAppointments)}" class="row g-4">
+                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4" th:each="appointment : ${upcomingAppointments}">
+                            <div class="card h-100 border-0 shadow-sm position-relative">
+                                <div class="position-absolute top-0 start-0 end-0 bg-primary" style="height:4px;"></div>
+                                <div class="card-body p-0">
+                                    <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                                        <div class="d-flex align-items-center">
+                                            <div class="text-center me-3">
+                                                <span class="d-block fs-2 fw-bold lh-1" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'dd') : ''}">15</span>
+                                                <span class="small text-muted text-uppercase" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'MMM') : ''}">Jun</span>
+                                            </div>
+                                            <span class="badge bg-primary px-3 py-2 ms-2" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'EEEE') : 'Unknown'}">Friday</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-3">
+                                        <h5 class="fw-bold mb-3" th:text="${appointment.treatmentType != null ? appointment.treatmentType.name : 'Unknown Treatment'}">Regular Check-up</h5>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-flex mb-3">
+                                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center me-3" style="width:36px;height:36px;">
+                                                    <i class="fa-solid fa-user-md text-primary"></i>
                                                 </div>
-                                                <span class="badge bg-primary" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'EEEE') : '未知'}">Monday</span>
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title" th:text="${appointment.treatmentType != null ? appointment.treatmentType.name : '未知治疗'}">常规检查</h5>
-                                                <ul class="list-unstyled mb-3">
-                                                    <li class="mb-2">
-                                                        <i class="fas fa-user-md text-primary me-2"></i>
-                                                        <span th:text="${appointment.dentist != null ? ('Dr. ' + appointment.dentist.firstName + ' ' + appointment.dentist.lastName) : '未知医生'}">Dr. William Lam</span>
-                                                    </li>
-                                                    <li class="mb-2">
-                                                        <i class="fas fa-clock text-primary me-2"></i>
-                                                        <span th:with="startFormatted=${appointment.startTime != null ? #temporals.format(appointment.startTime, 'HH:mm') : '未知'}, endFormatted=${appointment.endTime != null ? #temporals.format(appointment.endTime, 'HH:mm') : '未知'}" 
-                                                                th:text="${startFormatted + ' - ' + endFormatted}">09:00 - 10:00</span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
-                                                        <span th:text="${appointment.clinic != null ? appointment.clinic.name : '未知诊所'}">TST 诊所</span>
-                                                    </li>
-                                                </ul>
-                                                <p class="card-text small" th:if="${appointment.notes}" th:text="${appointment.notes}">
-                                                    患者备注显示在这里
-                                                </p>
-                                            </div>
-                                            <div class="card-footer d-flex justify-content-between">
-                                                <a th:href="@{/booking/view/{id}(id=${appointment.id})}" class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-eye me-1"></i> 详情
-                                                </a>
                                                 <div>
-                                                    <a th:href="@{/booking/edit/{id}(id=${appointment.id})}" class="btn btn-sm btn-outline-secondary me-1">
-                                                        <i class="fas fa-edit me-1"></i> 改期
-                                                    </a>
-                                                    <button type="button" class="btn btn-sm btn-outline-danger cancel-btn" 
-                                                            th:data-appointment-id="${appointment.id}" 
-                                                            data-bs-toggle="modal" data-bs-target="#cancelModal">
-                                                        <i class="fas fa-times-circle me-1"></i> 取消
-                                                    </button>
+                                                    <small class="text-muted d-block">Doctor</small>
+                                                    <strong th:text="${appointment.dentist != null ? ('Dr. ' + appointment.dentist.name) : 'Unknown Doctor'}">Dr. William Lam</strong>
                                                 </div>
-                                            </div>
+                                            </li>
+                                            <li class="d-flex mb-3">
+                                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center me-3" style="width:36px;height:36px;">
+                                                    <i class="fa-regular fa-clock text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Time</small>
+                                                    <strong th:with="startFormatted=${appointment.startTime != null ? #temporals.format(appointment.startTime, 'HH:mm') : 'Unknown'}, endFormatted=${appointment.endTime != null ? #temporals.format(appointment.endTime, 'HH:mm') : 'Unknown'}" 
+                                                            th:text="${startFormatted + ' - ' + endFormatted}">09:00 - 10:00</strong>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex">
+                                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center me-3" style="width:36px;height:36px;">
+                                                    <i class="fa-solid fa-map-marker-alt text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Location</small>
+                                                    <strong th:text="${appointment.clinic != null ? appointment.clinic.name : 'Unknown Clinic'}">TST Clinic</strong>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div th:if="${appointment.notes}" class="p-3 pt-0">
+                                        <div class="mt-3 p-3 bg-light rounded-3">
+                                            <h6 class="fw-bold small text-uppercase mb-2">Notes</h6>
+                                            <p class="small mb-0" th:text="${appointment.notes}">Patient notes displayed here</p>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <!-- 历史预约 -->
-                        <div class="tab-pane fade" id="past" role="tabpanel" aria-labelledby="past-tab">
-                            <div th:if="${#lists.isEmpty(pastAppointments)}" class="text-center py-5">
-                                <i class="fas fa-history fa-3x text-muted mb-3"></i>
-                                <p class="lead">您没有历史预约记录</p>
-                            </div>
-                            
-                            <div th:if="${not #lists.isEmpty(pastAppointments)}">
-                                <div class="row appointment-cards">
-                                    <div class="col-md-6 col-lg-4 mb-4" th:each="appointment : ${pastAppointments}">
-                                        <div class="card appointment-card h-100">
-                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
-                                                <div class="appointment-date">
-                                                    <span class="date-day" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'dd') : ''}">15</span>
-                                                    <span class="date-month" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'MMM') : ''}">Apr</span>
-                                                </div>
-                                                <span class="badge bg-success" th:if="${appointment.status == 'COMPLETED'}">已完成</span>
-                                                <span class="badge bg-warning" th:if="${appointment.status == 'NO_SHOW'}">未出席</span>
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title" th:text="${appointment.treatmentType != null ? appointment.treatmentType.name : '未知治疗'}">常规检查</h5>
-                                                <ul class="list-unstyled mb-3">
-                                                    <li class="mb-2">
-                                                        <i class="fas fa-user-md text-muted me-2"></i>
-                                                        <span th:text="${appointment.dentist != null ? ('Dr. ' + appointment.dentist.firstName + ' ' + appointment.dentist.lastName) : '未知医生'}"></span>
-                                                    </li>
-                                                    <li class="mb-2">
-                                                        <i class="fas fa-clock text-muted me-2"></i>
-                                                        <span th:with="startFormatted=${appointment.startTime != null ? #temporals.format(appointment.startTime, 'HH:mm') : '未知'}, endFormatted=${appointment.endTime != null ? #temporals.format(appointment.endTime, 'HH:mm') : '未知'}" 
-                                                                th:text="${startFormatted + ' - ' + endFormatted}"></span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fas fa-map-marker-alt text-muted me-2"></i>
-                                                        <span th:text="${appointment.clinic != null ? appointment.clinic.name : '未知诊所'}"></span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a th:href="@{/booking/view/{id}(id=${appointment.id})}" class="btn btn-sm btn-outline-secondary w-100">
-                                                    <i class="fas fa-eye me-1"></i> 查看详情
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="card-footer bg-light border-0 d-flex justify-content-between align-items-center p-3">
+                                    <a th:href="@{/booking/view/{id}(id=${appointment.id})}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fa-solid fa-eye me-1"></i> Details
+                                    </a>
+                                    <a th:href="@{/booking/edit/{id}(id=${appointment.id})}" class="btn btn-sm btn-outline-secondary ms-1 me-1">
+                                        <i class="fa-solid fa-pen-to-square me-1"></i> Reschedule
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger cancel-btn" 
+                                            th:data-appointment-id="${appointment.id}" 
+                                            data-bs-toggle="modal" data-bs-target="#cancelModal">
+                                        <i class="fa-solid fa-xmark me-1"></i> Cancel
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- 已取消预约 -->
-                        <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
-                            <div th:if="${#lists.isEmpty(cancelledAppointments)}" class="text-center py-5">
-                                <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
-                                <p class="lead">您没有已取消的预约</p>
-                            </div>
-                            
-                            <div th:if="${not #lists.isEmpty(cancelledAppointments)}">
-                                <div class="row appointment-cards">
-                                    <div class="col-md-6 col-lg-4 mb-4" th:each="appointment : ${cancelledAppointments}">
-                                        <div class="card appointment-card h-100 border-secondary">
-                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
-                                                <div class="appointment-date">
-                                                    <span class="date-day" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'dd') : ''}">15</span>
-                                                    <span class="date-month" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'MMM') : ''}">Apr</span>
-                                                </div>
-                                                <span class="badge bg-secondary">已取消</span>
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title text-muted" th:text="${appointment.treatmentType != null ? appointment.treatmentType.name : '未知治疗'}">常规检查</h5>
-                                                <ul class="list-unstyled mb-3 text-muted">
-                                                    <li class="mb-2">
-                                                        <i class="fas fa-user-md me-2"></i>
-                                                        <span th:text="${appointment.dentist != null ? ('Dr. ' + appointment.dentist.firstName + ' ' + appointment.dentist.lastName) : '未知医生'}"></span>
-                                                    </li>
-                                                    <li class="mb-2">
-                                                        <i class="fas fa-clock me-2"></i>
-                                                        <span th:with="startFormatted=${appointment.startTime != null ? #temporals.format(appointment.startTime, 'HH:mm') : '未知'}, endFormatted=${appointment.endTime != null ? #temporals.format(appointment.endTime, 'HH:mm') : '未知'}" 
-                                                                th:text="${startFormatted + ' - ' + endFormatted}"></span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fas fa-map-marker-alt me-2"></i>
-                                                        <span th:text="${appointment.clinic != null ? appointment.clinic.name : '未知诊所'}"></span>
-                                                    </li>
-                                                </ul>
-                                                <div class="small text-muted mt-3">
-                                                    <strong>取消原因:</strong>
-                                                    <p th:text="${appointment.cancellationReason}">时间冲突</p>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a th:href="@{/booking/create}" class="btn btn-sm btn-outline-primary w-100">
-                                                    <i class="fas fa-redo me-1"></i> 重新预约
-                                                </a>
+                    </div>
+                </div>
+                
+                <!-- Past appointments -->
+                <div class="tab-pane fade" id="nav-past" role="tabpanel" aria-labelledby="nav-past-tab">
+                    <div th:if="${#lists.isEmpty(pastAppointments)}" class="text-center py-5">
+                        <i class="fa-solid fa-history text-muted opacity-25 display-1 mb-4"></i>
+                        <h4 class="fw-bold mb-3">No Past Appointments</h4>
+                        <p class="text-muted">You don't have any completed appointment records yet.</p>
+                    </div>
+                    
+                    <div th:if="${not #lists.isEmpty(pastAppointments)}" class="row g-4">
+                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4" th:each="appointment : ${pastAppointments}">
+                            <div class="card h-100 border-0 shadow-sm position-relative">
+                                <div class="position-absolute top-0 start-0 end-0 bg-success" style="height:4px;" th:if="${appointment.status == 'COMPLETED'}"></div>
+                                <div class="position-absolute top-0 start-0 end-0 bg-warning" style="height:4px;" th:if="${appointment.status == 'NO_SHOW'}"></div>
+                                <div class="card-body p-0">
+                                    <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                                        <div class="d-flex align-items-center">
+                                            <div class="text-center me-3">
+                                                <span class="d-block fs-2 fw-bold lh-1" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'dd') : ''}">15</span>
+                                                <span class="small text-muted text-uppercase" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'MMM') : ''}">Jun</span>
                                             </div>
                                         </div>
+                                        <span class="badge bg-success px-3 py-2" th:if="${appointment.status == 'COMPLETED'}">Completed</span>
+                                        <span class="badge bg-warning px-3 py-2" th:if="${appointment.status == 'NO_SHOW'}">No Show</span>
                                     </div>
+                                    <div class="p-3">
+                                        <h5 class="fw-bold mb-3" th:text="${appointment.treatmentType != null ? appointment.treatmentType.name : 'Unknown Treatment'}">Regular Check-up</h5>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-flex mb-3">
+                                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center me-3" style="width:36px;height:36px;">
+                                                    <i class="fa-solid fa-user-md" th:class="${appointment.status == 'COMPLETED' ? 'text-success' : 'text-warning'}"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Doctor</small>
+                                                    <strong th:text="${appointment.dentist != null ? ('Dr. ' + appointment.dentist.name) : 'Unknown Doctor'}">Dr. William Lam</strong>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-3">
+                                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center me-3" style="width:36px;height:36px;">
+                                                    <i class="fa-regular fa-clock" th:class="${appointment.status == 'COMPLETED' ? 'text-success' : 'text-warning'}"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Time</small>
+                                                    <strong th:with="startFormatted=${appointment.startTime != null ? #temporals.format(appointment.startTime, 'HH:mm') : 'Unknown'}, endFormatted=${appointment.endTime != null ? #temporals.format(appointment.endTime, 'HH:mm') : 'Unknown'}" 
+                                                            th:text="${startFormatted + ' - ' + endFormatted}">09:00 - 10:00</strong>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex">
+                                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center me-3" style="width:36px;height:36px;">
+                                                    <i class="fa-solid fa-map-marker-alt" th:class="${appointment.status == 'COMPLETED' ? 'text-success' : 'text-warning'}"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Location</small>
+                                                    <strong th:text="${appointment.clinic != null ? appointment.clinic.name : 'Unknown Clinic'}">TST Clinic</strong>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-light border-0 d-flex justify-content-between align-items-center p-3">
+                                    <a th:href="@{/booking/view/{id}(id=${appointment.id})}" class="btn btn-sm btn-outline-secondary w-100">
+                                        <i class="fa-solid fa-eye me-1"></i> View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cancelled appointments -->
+                <div class="tab-pane fade" id="nav-cancelled" role="tabpanel" aria-labelledby="nav-cancelled-tab">
+                    <div th:if="${#lists.isEmpty(cancelledAppointments)}" class="text-center py-5">
+                        <i class="fa-solid fa-calendar-xmark text-muted opacity-25 display-1 mb-4"></i>
+                        <h4 class="fw-bold mb-3">No Cancelled Appointments</h4>
+                        <p class="text-muted">You haven't cancelled any appointments.</p>
+                    </div>
+                    
+                    <div th:if="${not #lists.isEmpty(cancelledAppointments)}" class="row g-4">
+                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4" th:each="appointment : ${cancelledAppointments}">
+                            <div class="card h-100 border-0 shadow-sm position-relative">
+                                <div class="position-absolute top-0 start-0 end-0 bg-danger" style="height:4px;"></div>
+                                <div class="card-body p-0">
+                                    <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                                        <div class="d-flex align-items-center">
+                                            <div class="text-center me-3">
+                                                <span class="d-block fs-2 fw-bold lh-1" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'dd') : ''}">15</span>
+                                                <span class="small text-muted text-uppercase" th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate, 'MMM') : ''}">Jun</span>
+                                            </div>
+                                        </div>
+                                        <span class="badge bg-danger px-3 py-2">Cancelled</span>
+                                    </div>
+                                    <div class="p-3">
+                                        <h5 class="fw-bold mb-3" th:text="${appointment.treatmentType != null ? appointment.treatmentType.name : 'Unknown Treatment'}">Regular Check-up</h5>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-flex mb-3">
+                                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center me-3" style="width:36px;height:36px;">
+                                                    <i class="fa-solid fa-user-md text-danger"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Doctor</small>
+                                                    <strong th:text="${appointment.dentist != null ? ('Dr. ' + appointment.dentist.name) : 'Unknown Doctor'}">Dr. William Lam</strong>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-3">
+                                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center me-3" style="width:36px;height:36px;">
+                                                    <i class="fa-regular fa-clock text-danger"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Time</small>
+                                                    <strong th:with="startFormatted=${appointment.startTime != null ? #temporals.format(appointment.startTime, 'HH:mm') : 'Unknown'}, endFormatted=${appointment.endTime != null ? #temporals.format(appointment.endTime, 'HH:mm') : 'Unknown'}" 
+                                                            th:text="${startFormatted + ' - ' + endFormatted}">09:00 - 10:00</strong>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex">
+                                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center me-3" style="width:36px;height:36px;">
+                                                    <i class="fa-solid fa-map-marker-alt text-danger"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Location</small>
+                                                    <strong th:text="${appointment.clinic != null ? appointment.clinic.name : 'Unknown Clinic'}">TST Clinic</strong>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="p-3 pt-0">
+                                        <div class="mt-3 p-3 bg-light rounded-3">
+                                            <h6 class="fw-bold small text-uppercase mb-2">Cancellation Reason</h6>
+                                            <p class="small mb-0" th:text="${appointment.cancellationReason}">Schedule conflict</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-light border-0 d-flex justify-content-center align-items-center p-3">
+                                    <a th:href="@{/booking/create}" class="btn btn-sm btn-outline-primary w-100">
+                                        <i class="fa-solid fa-redo me-1"></i> Book Again
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -208,38 +262,40 @@
                 </div>
             </div>
         </div>
-        
-        <!-- 取消预约的模态框 -->
+
+        <!-- Cancel appointment modal -->
         <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="cancelModalLabel">取消预约</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="cancelModalLabel">
+                            <i class="fa-solid fa-triangle-exclamation me-2"></i>Cancel Appointment
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="cancelForm" th:action="@{/booking/cancel/}" method="post">
                         <input type="hidden" id="appointmentId" name="appointmentId" value="" />
-                        <div class="modal-body">
-                            <p>您确定要取消此预约吗？</p>
+                        <div class="modal-body p-4">
+                            <p>Are you sure you want to cancel this appointment? Please select a reason for cancellation.</p>
                             <div class="mb-3">
-                                <label for="reason" class="form-label">取消原因</label>
+                                <label for="reason" class="form-label fw-bold">Cancellation Reason</label>
                                 <select class="form-select" id="reason" name="reason" required>
-                                    <option value="">请选择取消原因</option>
-                                    <option value="时间冲突，无法前往">时间冲突，无法前往</option>
-                                    <option value="症状已改善，不需要就诊">症状已改善，不需要就诊</option>
-                                    <option value="选择其他医生">选择其他医生</option>
-                                    <option value="选择其他日期">选择其他日期</option>
-                                    <option value="other">其他原因</option>
+                                    <option value="">Please select a reason</option>
+                                    <option value="Schedule conflict, unable to attend">Schedule conflict, unable to attend</option>
+                                    <option value="Symptoms improved, no longer need appointment">Symptoms improved, no longer need appointment</option>
+                                    <option value="Prefer to see a different dentist">Prefer to see a different dentist</option>
+                                    <option value="Need a different date">Need a different date</option>
+                                    <option value="other">Other reason</option>
                                 </select>
                             </div>
                             <div class="mb-3" id="otherReasonDiv" style="display: none;">
-                                <label for="otherReason" class="form-label">请说明</label>
-                                <textarea class="form-control" id="otherReason" name="otherReason" rows="2"></textarea>
+                                <label for="otherReason" class="form-label fw-bold">Please specify</label>
+                                <textarea class="form-control" id="otherReason" name="otherReason" rows="3" placeholder="Please provide more information about your cancellation..."></textarea>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
-                            <button type="submit" class="btn btn-danger">确认取消</button>
+                        <div class="modal-footer border-0">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Back</button>
+                            <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
                         </div>
                     </form>
                 </div>
@@ -247,18 +303,24 @@
         </div>
     </main>
     
-    <!-- JavaScript 代码片段 -->
+    <!-- JavaScript Code Snippet -->
     <script th:fragment="scripts">
         $(document).ready(function() {
-            // 取消预约按钮点击
+            // Initialize tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Cancel appointment button click
             $('.cancel-btn').click(function() {
                 var appointmentId = $(this).data('appointment-id');
                 $('#appointmentId').val(appointmentId);
-                // 动态修改表单action
+                // Dynamically modify form action
                 $('#cancelForm').attr('action', '/booking/cancel/' + appointmentId);
             });
             
-            // 处理其他原因
+            // Handle other reason
             $('#reason').change(function() {
                 if ($(this).val() === 'other') {
                     $('#otherReasonDiv').show();
@@ -267,17 +329,31 @@
                 }
             });
             
-            // 表单提交前处理其他原因
+            // Process other reason before form submission
             $('#cancelForm').submit(function(e) {
                 if ($('#reason').val() === 'other') {
                     var otherReason = $('#otherReason').val();
                     if (otherReason.trim() === '') {
-                        showErrorMessage('请说明取消原因');
+                        alert('Please specify the cancellation reason');
                         return false;
                     }
                 }
                 return true;
             });
+            
+            // Card hover effect
+            $('.card').hover(
+                function() {
+                    $(this).addClass('shadow');
+                    $(this).css('transform', 'translateY(-5px)');
+                    $(this).css('transition', 'all 0.3s ease');
+                },
+                function() {
+                    $(this).removeClass('shadow');
+                    $(this).css('transform', 'translateY(0)');
+                    $(this).css('transition', 'all 0.3s ease');
+                }
+            );
         });
     </script>
 </body>

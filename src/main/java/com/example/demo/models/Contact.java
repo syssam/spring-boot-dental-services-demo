@@ -23,7 +23,10 @@ public class Contact {
     @Size(max = 100, message = "Email must be less than 100 characters")
     private String email;
     
-    @Size(max = 8, message = "Phone must be less than 8 characters")
+    @Column(name = "telephone_prefix")
+    private String telephonePrefix = "852";
+    
+    @Size(max = 15, message = "Phone must be less than 15 characters")
     private String telephone;
     
     @NotBlank(message = "Message is required")
@@ -60,6 +63,14 @@ public class Contact {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public String getTelephonePrefix() {
+        return telephonePrefix;
+    }
+
+    public void setTelephonePrefix(String telephonePrefix) {
+        this.telephonePrefix = telephonePrefix;
     }
 
     public String getTelephone() {

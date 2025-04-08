@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.ProfileFormDto;
 import com.example.demo.dto.UserRegistrationDto;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
@@ -62,7 +63,7 @@ public class UserService implements UserDetailsService {
     }
     
     @Transactional
-    public User updateProfile(Long userId, UserRegistrationDto profileDto) {
+    public User updateProfile(Long userId, ProfileFormDto profileDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("用户不存在"));
         
@@ -74,11 +75,30 @@ public class UserService implements UserDetailsService {
         // 邮箱不允许更改
         
         // 如果提供了新密码则更新密码
+        /*
         if (profileDto.getPassword() != null && !profileDto.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(profileDto.getPassword()));
         }
+        */
         
         return userRepository.save(user);
+    }
+    
+    @Transactional
+    public boolean changePassword(Long userId, String oldPassword, String newPassword) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("用户不存在"));
+        
+        // 验证旧密码
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            return false;
+        }
+        
+        // 设置新密码
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        
+        return true;
     }
     
     public boolean checkPassword(User user, String rawPassword) {

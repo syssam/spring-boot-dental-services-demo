@@ -2,6 +2,8 @@ package com.example.demo.controllers.app;
 
 import com.example.demo.models.Contact;
 import com.example.demo.repositories.ContactRepository;
+import com.example.demo.services.ClinicService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +21,15 @@ public class ContactController {
     @Autowired
     private ContactRepository contactRepository;
     
+    @Autowired
+    private ClinicService clinicService;
+    
     @GetMapping("/contact")
     public String index(Model model) {
         if (!model.containsAttribute("contact")) {
             model.addAttribute("contact", new Contact());
         }
+        model.addAttribute("clinics", clinicService.findAllActiveClinics());
         return "app/contact";
     }
     

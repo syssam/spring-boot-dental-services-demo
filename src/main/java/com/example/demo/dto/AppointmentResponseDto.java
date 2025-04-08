@@ -31,7 +31,7 @@ public class AppointmentResponseDto {
         dto.setUserId(appointment.getUser().getId());
         dto.setUserName(appointment.getUser().getFirstName() + " " + appointment.getUser().getLastName());
         dto.setDentistId(appointment.getDentist().getId());
-        dto.setDentistName("Dr. " + appointment.getDentist().getFirstName() + " " + appointment.getDentist().getLastName());
+        dto.setDentistName("Dr. " + appointment.getDentist().getName());
         dto.setClinicId(appointment.getClinic().getId());
         dto.setClinicName(appointment.getClinic().getName());
         dto.setTreatmentTypeId(appointment.getTreatmentType().getId());

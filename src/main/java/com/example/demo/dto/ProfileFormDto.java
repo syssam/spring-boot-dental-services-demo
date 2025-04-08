@@ -25,9 +25,4 @@ public class ProfileFormDto {
     @NotBlank
     @Size(min = 8, max = 15)
     private String telephone;
-    
-    @Size(min = 6)
-    private String password;
-    
-    private String confirmPassword;
 }

@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,30 +13,24 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "clinics")
+@Table(name = "services")
 @Getter
 @Setter
 @ToString
-public class Clinic {
+public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(nullable = false)
+    private String image;
+
     @Column(nullable = false, length = 100)
     private String name;
     
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String address;
-    
-    @Column(nullable = false, length = 20)
-    private String phone;
-    
-    @Column(length = 100)
-    private String email;
-    
     @Column(columnDefinition = "TEXT")
-    private String openingHours;
-    
+    private String content;
+
     @Column(nullable = false)
     private boolean active = true;
 } 

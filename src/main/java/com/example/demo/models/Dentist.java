@@ -23,22 +23,13 @@ public class Dentist {
     private Long id;
     
     @Column(nullable = false)
-    private String firstName;
-    
-    @Column(nullable = false)
-    private String lastName;
+    private String name;
     
     @Column(length = 100)
     private String specialization;
-    
-    @Column(length = 100)
-    private String email;
-    
-    @Column(length = 20)
-    private String phone;
-    
-    @Column(length = 255)
-    private String profileImage;
+
+    @Column(columnDefinition = "TEXT")
+    private String qualification;
     
     @Column(nullable = false)
     private boolean active = true;

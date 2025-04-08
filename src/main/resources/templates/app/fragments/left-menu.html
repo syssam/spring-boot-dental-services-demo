@@ -1,11 +1,12 @@
 <div class="column-left">
     <div class="list-group shadow bg-body rounded-0">
-        <a href="/account" class="">Account</a>
-        <a href="/account/password" class="">Password</a>
+        <a href="/account" th:class="${leftMenuActivePage == 'account' ? 'active' : ''}">Profile</a>
+        <a href="/account/password" th:class="${leftMenuActivePage == 'account/password' ? 'active' : ''}">Change Password</a>
+        <a href="/booking" th:class="${leftMenuActivePage == 'booking' ? 'active' : ''}">My Appointments</a>
     </div>
-    <select class="form-control rounded-0" id="account-left-menu-select">
-        <option value="/account" data-href="/account">Account</option>
-        <option value="/account/address" data-href="/account/address" >Address</option>
-        <option value="/account/password" data-href="/account/password">Password</option>
+    <select class="form-select rounded-0 mt-3 d-md-none" id="account-left-menu-select">
+        <option value="/account" th:class="${leftMenuActivePage == 'account' ? 'active' : ''}" data-href="/account">Profile</option>
+        <option value="/account/password" th:class="${leftMenuActivePage == 'account/password' ? 'active' : ''}" data-href="/account/password">Change Password</option>
+        <option value="/booking" th:class="${leftMenuActivePage == 'booking' ? 'active' : ''}" data-href="/booking">My Appointments</option>
     </select>
 </div>

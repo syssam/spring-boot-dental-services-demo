@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.dto.UserRegistrationDto;
+import com.example.demo.dto.AccountPasswordFormDto;
 import com.example.demo.models.User;
 import com.example.demo.services.UserService;
 
@@ -25,7 +25,6 @@ public class AccountPasswordController {
     @Autowired
     private UserService userService;
     
-    
     @GetMapping
     public String index(Model model) {
         User authUser = userService.getAuthUser();
@@ -33,24 +32,17 @@ public class AccountPasswordController {
             return "redirect:/signin";
         }
         
-        if (!model.containsAttribute("profileForm")) {
-            UserRegistrationDto profileForm = new UserRegistrationDto();
-            profileForm.setFirstName(authUser.getFirstName());
-            profileForm.setLastName(authUser.getLastName());
-            profileForm.setEmail(authUser.getEmail());
-            profileForm.setTelephone(authUser.getTelephone());
-            profileForm.setTelephonePrefix(authUser.getTelephonePrefix());
-            
-            model.addAttribute("profileForm", profileForm);
+        if (!model.containsAttribute("passwordForm")) {
+            model.addAttribute("passwordForm", new AccountPasswordFormDto());
         }
         
-        return "account/password";
+        return "app/account/password";
     }
     
-    @PostMapping("/update")
-    public String submit(@Valid @ModelAttribute("profileForm") UserRegistrationDto profileForm,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+    @PostMapping
+    public String update(@Valid @ModelAttribute("passwordForm") AccountPasswordFormDto passwordForm,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
         
         User authUser = userService.getAuthUser();
         if (authUser == null) {
@@ -58,18 +50,30 @@ public class AccountPasswordController {
         }
         
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.profileForm", bindingResult);
-            redirectAttributes.addFlashAttribute("profileForm", profileForm);
-            return "redirect:/profile";
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.passwordForm", bindingResult);
+            redirectAttributes.addFlashAttribute("passwordForm", passwordForm);
+            return "redirect:/account/password";
         }
         
         try {
-            userService.updateProfile(authUser.getId(), profileForm);
-            redirectAttributes.addFlashAttribute("success", "个人资料更新成功");
+            boolean isPasswordChanged = userService.changePassword(
+                authUser.getId(), 
+                passwordForm.getOldPassword(), 
+                passwordForm.getPassword()
+            );
+            
+            if (isPasswordChanged) {
+                redirectAttributes.addFlashAttribute("success", "密码已成功更新");
+                return "redirect:/account";
+            } else {
+                redirectAttributes.addFlashAttribute("error", "当前密码不正确");
+                redirectAttributes.addFlashAttribute("passwordForm", passwordForm);
+                return "redirect:/account/password";
+            }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "更新失败: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "更新密码失败: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("passwordForm", passwordForm);
+            return "redirect:/account/password";
         }
-        
-        return "redirect:/profile";
     }
 } 

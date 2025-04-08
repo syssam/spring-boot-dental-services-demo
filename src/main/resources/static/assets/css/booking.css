@@ -1,4 +1,557 @@
-/* 预约页面的通用样式 */
+/* 页面标题和头部 */
+.booking-header {
+  background-color: #fff;
+  padding: 40px 0 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.booking-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--dark-color);
+}
+
+.booking-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+.new-booking-btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.2);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.new-booking-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(63, 81, 181, 0.25);
+}
+
+.new-booking-btn:active {
+  transform: translateY(1px);
+}
+
+/* 预约统计卡片 */
+.dashboard-stats {
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background-color: #fff;
+  border-radius: var(--border-radius);
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.stat-card-animated {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+}
+
+.stat-card.upcoming::before {
+  background-color: var(--primary-color);
+}
+
+.stat-card.completed::before {
+  background-color: var(--success-color);
+}
+
+.stat-card.cancelled::before {
+  background-color: var(--warning-color);
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 20px;
+  font-size: 1.6rem;
+}
+
+.stat-card.upcoming .stat-icon {
+  color: var(--primary-color);
+  background-color: rgba(63, 81, 181, 0.1);
+}
+
+.stat-card.completed .stat-icon {
+  color: var(--success-color);
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.stat-card.cancelled .stat-icon {
+  color: var(--warning-color);
+  background-color: rgba(255, 152, 0, 0.1);
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+/* 标签页 */
+.booking-tabs {
+  background-color: #fff;
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--card-shadow);
+}
+
+.nav-pills .nav-link {
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: #6c757d;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  margin-right: 8px;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.nav-pills .nav-link.active {
+  background-color: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(63, 81, 181, 0.2);
+}
+
+.tab-content {
+  padding-top: 30px;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-state-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.empty-state-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(63, 81, 181, 0.1);
+  font-size: 3rem;
+  color: var(--primary-color);
+}
+
+.empty-state-title {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  color: var(--dark-color);
+}
+
+.empty-state-description {
+  color: #6c757d;
+  margin-bottom: 24px;
+}
+
+/* 预约卡片 */
+.appointment-grid {
+  margin-bottom: 30px;
+}
+
+.appointment-card {
+  background-color: #fff;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  height: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card-loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.appointment-card:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.appointment-card:nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+.card-hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+}
+
+.upcoming-card .card-status-bar {
+  background-color: var(--primary-color);
+}
+
+.past-card .card-status-bar {
+  background-color: var(--success-color);
+}
+
+.cancelled-card .card-status-bar {
+  background-color: var(--warning-color);
+}
+
+.appointment-card-header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.appointment-date {
+  display: flex;
+  align-items: center;
+}
+
+.date-day {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-right: 10px;
+  color: var(--dark-color);
+}
+
+.date-month-year {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-month {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--dark-color);
+}
+
+.date-year {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.appointment-weekday .badge {
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  background-color: var(--primary-light);
+  color: #fff;
+}
+
+.appointment-status {
+  font-weight: 500;
+}
+
+.status-completed {
+  color: var(--success-color);
+  display: inline-block;
+  padding: 5px 12px;
+  background-color: rgba(76, 175, 80, 0.1);
+  border-radius: 50px;
+  font-size: 0.85rem;
+}
+
+.status-noshow {
+  color: var(--warning-color);
+  display: inline-block;
+  padding: 5px 12px;
+  background-color: rgba(255, 152, 0, 0.1);
+  border-radius: 50px;
+  font-size: 0.85rem;
+}
+
+.status-cancelled {
+  color: var(--danger-color);
+  display: inline-block;
+  padding: 5px 12px;
+  background-color: rgba(244, 67, 54, 0.1);
+  border-radius: 50px;
+  font-size: 0.85rem;
+}
+
+.appointment-card-body {
+  padding: 20px;
+}
+
+.appointment-type {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--dark-color);
+}
+
+.appointment-info {
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.info-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(63, 81, 181, 0.1);
+  color: var(--primary-color);
+  border-radius: 8px;
+  margin-right: 14px;
+}
+
+.info-content {
+  flex: 1;
+}
+
+.info-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-bottom: 3px;
+}
+
+.info-value {
+  font-weight: 500;
+  color: var(--dark-color);
+}
+
+.appointment-notes, .cancellation-reason {
+  background-color: rgba(0, 0, 0, 0.02);
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.notes-title, .reason-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--dark-color);
+}
+
+.notes-content, .reason-content {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+.appointment-card-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-view {
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit, .btn-cancel {
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+/* 模态框 */
+.custom-modal .modal-content {
+  border-radius: 16px;
+  overflow: hidden;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.custom-modal .modal-header {
+  padding: 20px;
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.custom-modal .modal-title {
+  font-weight: 600;
+}
+
+.custom-modal .modal-body {
+  padding: 30px;
+  text-align: center;
+}
+
+.modal-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(244, 67, 54, 0.1);
+  font-size: 2.5rem;
+  color: var(--danger-color);
+}
+
+.modal-message {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: var(--dark-color);
+}
+
+.custom-modal .form-label {
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.custom-modal .form-select, .custom-modal .form-control {
+  height: 48px;
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+
+.custom-modal .modal-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.custom-modal .btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* 响应式调整 */
+@media (max-width: 991.98px) {
+  .booking-title {
+    font-size: 2rem;
+  }
+  
+  .booking-header {
+    padding: 30px 0 20px;
+  }
+  
+  .new-booking-btn {
+    font-size: 0.9rem;
+    padding: 10px 18px;
+  }
+  
+  .booking-tabs {
+    padding: 20px;
+  }
+  
+  .nav-pills .nav-link {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .booking-header {
+    text-align: center;
+  }
+  
+  .booking-title {
+    font-size: 1.8rem;
+  }
+  
+  .booking-subtitle {
+    font-size: 1rem;
+  }
+  
+  .col-md-6.text-md-end {
+    text-align: center !important;
+    margin-top: 20px;
+  }
+  
+  .stat-card {
+    margin-bottom: 15px;
+  }
+  
+  .empty-state {
+    padding: 40px 15px;
+  }
+  
+  .empty-state-icon {
+    width: 80px;
+    height: 80px;
+    font-size: 2.5rem;
+  }
+  
+  .empty-state-title {
+    font-size: 1.3rem;
+  }
+  
+  .appointment-type {
+    font-size: 1.1rem;
+  }
+}
+
+/* 预约进度步骤样式 */
 .booking-progress {
     display: flex;
     justify-content: space-between;
@@ -13,7 +566,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: #e9ecef;
+    background: rgba(0, 0, 0, 0.05);
     z-index: 1;
 }
 
@@ -28,7 +581,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #e9ecef;
+    background: #f5f5f5;
     color: #6c757d;
     display: flex;
     align-items: center;
@@ -36,140 +589,294 @@
     margin: 0 auto 10px;
     font-weight: bold;
     border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all var(--transition-fast);
 }
 
 .booking-step.active .step-number {
-    background: #007bff;
+    background: var(--primary-color);
     color: #fff;
+    transform: scale(1.1);
 }
 
 .step-text {
     font-size: 0.85rem;
     color: #6c757d;
+    font-weight: 500;
+    transition: all var(--transition-fast);
 }
 
 .booking-step.active .step-text {
-    color: #007bff;
-    font-weight: bold;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.booking-step.completed .step-number {
+    background: var(--success-color);
+    color: #fff;
 }
 
 /* 牙医卡片样式 */
 .dentist-card {
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-normal);
     border: 2px solid transparent;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    padding: 20px;
 }
 
 .dentist-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .dentist-card.selected {
-    border-color: #007bff;
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    border-color: var(--primary-color);
+    box-shadow: 0 5px 20px rgba(63, 81, 181, 0.2);
+}
+
+.dentist-avatar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
 }
 
 .dentist-avatar img {
     width: 80px;
     height: 80px;
     object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* 时间段按钮样式 */
 .timeslot-container {
-    padding: 15px;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    background-color: #f8f9fa;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    background-color: #fff;
+    box-shadow: var(--card-shadow);
+}
+
+.timeslot-heading {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--dark-color);
 }
 
 .timeslot-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .timeslot-group:last-child {
     margin-bottom: 0;
 }
 
+.timegroup-label {
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
+}
+
+.timegroup-label i {
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+
 .timeslot-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
     margin-top: 10px;
 }
 
 .time-slot-btn {
-    min-width: 80px;
+    min-width: 85px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: all var(--transition-fast);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: #f9f9f9;
+    color: var(--dark-color);
+}
+
+.time-slot-btn:hover {
+    background-color: rgba(63, 81, 181, 0.08);
+    border-color: rgba(63, 81, 181, 0.2);
 }
 
 .time-slot-btn.selected {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
-    border-color: #007bff;
+    border-color: var(--primary-color);
+    box-shadow: 0 3px 10px rgba(63, 81, 181, 0.2);
 }
 
 /* 预约摘要样式 */
+.summary-card {
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    padding: 25px;
+}
+
+.summary-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--dark-color);
+}
+
 .summary-item {
     display: flex;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .summary-item:last-child {
     margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.summary-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(63, 81, 181, 0.1);
+    color: var(--primary-color);
+    border-radius: 8px;
+    margin-right: 14px;
+}
+
+.summary-details {
+    flex: 1;
 }
 
 .summary-label {
-    width: 30%;
-    font-weight: bold;
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-bottom: 3px;
 }
 
 .summary-value {
-    width: 70%;
-}
-
-/* 预约卡片样式 */
-.appointment-card {
-    transition: transform 0.3s ease;
-}
-
-.appointment-card:hover {
-    transform: translateY(-5px);
-}
-
-.appointment-date {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.date-day {
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 1;
-}
-
-.date-month {
-    font-size: 14px;
-    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--dark-color);
 }
 
 /* 预约确认页面样式 */
 .confirmation-card {
-    border-top: 5px solid #28a745;
+    text-align: center;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    border-top: 5px solid var(--success-color);
 }
 
 .confirmation-icon {
-    color: #28a745;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(76, 175, 80, 0.1);
+    font-size: 3rem;
+    color: var(--success-color);
+}
+
+.confirmation-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--dark-color);
+}
+
+.confirmation-message {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: #6c757d;
+}
+
+.confirmation-details {
+    max-width: 400px;
+    margin: 0 auto 30px;
 }
 
 /* 预约详情页面样式 */
-.appointment-status-card {
-    border-left: 5px solid #007bff;
+.appointment-details-card {
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
 }
 
-/* 响应式调整 */
-@media (max-width: 767.98px) {
+.appointment-details-header {
+    padding: 30px;
+    background-color: var(--primary-color);
+    color: #fff;
+    position: relative;
+}
+
+.details-header-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.details-header-date {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.details-status-badge {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.badge-confirmed {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.appointment-details-body {
+    padding: 30px;
+}
+
+.details-section {
+    margin-bottom: 30px;
+}
+
+.details-section:last-child {
+    margin-bottom: 0;
+}
+
+.details-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--dark-color);
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 移动端响应式调整 */
+@media (max-width: 575.98px) {
     .booking-step {
         width: auto;
     }
@@ -184,15 +891,40 @@
         font-size: 0.85rem;
     }
     
+    .dentist-card {
+        padding: 15px;
+    }
+    
+    .time-slot-btn {
+        min-width: 70px;
+        font-size: 0.85rem;
+        padding: 8px 10px;
+    }
+    
     .summary-item {
         flex-direction: column;
     }
     
-    .summary-label, .summary-value {
-        width: 100%;
+    .summary-icon {
+        margin-bottom: 10px;
+        margin-right: 0;
     }
     
-    .summary-value {
-        margin-top: 5px;
+    .confirmation-card {
+        padding: 30px 20px;
+    }
+    
+    .confirmation-title {
+        font-size: 1.5rem;
+    }
+    
+    .confirmation-message {
+        font-size: 1rem;
+    }
+    
+    .confirmation-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
     }
 } 

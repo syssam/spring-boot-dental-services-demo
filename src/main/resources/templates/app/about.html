@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout(title='Home Page', content='::content', css='about', scripts='')}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{app/layout :: layout(activePage='about', title='About Page', content='::content', css='about', scripts='')}">
 <body>
     <!-- Override content fragment -->
     <main th:fragment="content">
@@ -11,44 +11,46 @@
                 </ol>
             </div>
         </nav>
-        <section class="image-section container mt-3">
-            <img src="https://trucaredental.hk/wp-content/uploads/trucaredental-blog-5.jpg.webp" class="img-fluid" />       
-        </section>
-        <section class="content-section container">
-            <div class="bg"></div>
-            <div class="content-wrapper">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body">
-                                <h2 class="section-title text-center">TruCare Dental Creating Beautiful Smiles Together</h2>
-                                <div class="section-body">
-                                    Founded in 2021 by Dr. Wu , TruCare Dental embodies “working with one heart,” “empathy,” and “childlike sincerity.” These values guide us to deliver warm smiles and expert care to every patient.
-                                    At Tongxin, we believe teeth are the foundation of health and the key to a confident smile. Our patient-centered team provides necessary, meaningful, and tailored treatments for both adults and children.
-                                    With four clinics across West Kowloon—Tsim Sha Tsui, Langham Place, Mong Kok, and Sham Shui Powe’ve earned over 1,500 Google reviews with an impressive 4.9-star average, inspiring us to keep growing.
+        <div class="page-body container-xxl">
+            <section class="image-section mt-3">
+                <img src="https://trucaredental.hk/wp-content/uploads/trucaredental-blog-5.jpg.webp" class="img-fluid" />       
+            </section>
+            <section class="content-section">
+                <div class="bg"></div>
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h2 class="section-title text-center">TruCare Dental Creating Beautiful Smiles Together</h2>
+                                    <div class="section-body">
+                                        Founded in 2021 by Dr. Wu , TruCare Dental embodies “working with one heart,” “empathy,” and “childlike sincerity.” These values guide us to deliver warm smiles and expert care to every patient.
+                                        At Tongxin, we believe teeth are the foundation of health and the key to a confident smile. Our patient-centered team provides necessary, meaningful, and tailored treatments for both adults and children.
+                                        With four clinics across West Kowloon—Tsim Sha Tsui, Langham Place, Mong Kok, and Sham Shui Powe’ve earned over 1,500 Google reviews with an impressive 4.9-star average, inspiring us to keep growing.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h4 class="section-title text-center">People-Oriented</h4>
+                                    <p>A trusted dentist prioritizes patients’ needs. We provide professional, affordable care, making high-quality dental services accessible to all and addressing dental issues at their root.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h4 class="section-title text-center">Childlike Care for Children</h4>
+                                    <p>Staying true to our name, we create a warm, joyful space for children, teaching them dental health through play and making visits enjoyable.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body">
-                                <h4 class="section-title text-center">People-Oriented</h4>
-                                <p>A trusted dentist prioritizes patients’ needs. We provide professional, affordable care, making high-quality dental services accessible to all and addressing dental issues at their root.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body">
-                                <h4 class="section-title text-center">Childlike Care for Children</h4>
-                                <p>Staying true to our name, we create a warm, joyful space for children, teaching them dental health through play and making visits enjoyable.</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 </body>
 </html>
